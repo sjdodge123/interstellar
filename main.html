@@ -1,0 +1,234 @@
+<html>
+<canvas id ="gameCanvas" width = "800" height = "600"></canvas>
+
+<script src="polyDraw.js"></script>
+<script type="text/javascript">
+"use strict";
+var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+	height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+
+	canvas = document.getElementById('gameCanvas');
+	canvas.width = width-50;
+	canvas.height = height-50;
+
+
+var canvasContext,
+mouseX,
+mouseY,
+gameObjectList = [],
+ship,
+cannon,
+assTard,
+asteroidSpawn,
+game;
+
+
+// **************************	MAIN    **************************
+function update() {
+	drawEverything();
+}
+
+function spawnAsteroid(evt) {
+	assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,0,0,0,'white');
+	gameObjectList.push(assTard);
+}
+
+window.onload = function() {
+	var framesPerSecond = 1000/30;
+	canvasContext = canvas.getContext('2d');
+	ship = new ShipObject(canvas.width/2,canvas.height/2,10,30,0,'white',20);
+	cannon = new Cannon(canvas.width/2,canvas.height/2,5,15,0,'red');
+	ship.weapon = cannon;
+	gameObjectList.push(ship);
+	game = setInterval(update,framesPerSecond);
+	asteroidSpawn = setInterval(spawnAsteroid,1000);
+	canvas.addEventListener("mousemove", calcMousePos, false);
+	canvas.addEventListener("click", handleClick, false);
+	window.addEventListener("keydown", handleKeys, false);
+}
+
+
+
+// **************************	OBJECTS    **************************
+
+class GameObject {
+	constructor (x,y,width,height,angle,color) {
+		this.width = width;
+		this.height = height;
+		this.angle = 0;
+		this.color = color;
+		this.x = x;
+		this.y = y;
+		this.speed = 0;
+		this.velX = 0;
+		this.velY = 0;
+		this.accelX=0;
+		this.accelY=0;
+	}
+	draw() {
+		canvasContext.save();
+		canvasContext.translate(this.x+this.width/2,this.y+this.height/2);
+		canvasContext.rotate(this.angle*Math.PI/180);
+		canvasContext.fillStyle = 'red';
+		canvasContext.fillRect(-this.width/2,-this.height/2,this.width,this.height);
+		canvasContext.restore();
+	}
+	update() {
+		updatePhysics(this);
+		this.draw();
+	}
+	
+
+}
+class ShipObject extends GameObject {
+	constructor(x,y,width,height,angle,color,turnSpeed){
+		super(x,y,width,height,angle,color);
+		this.speed = 1;
+		this.turnSpeed = 5;
+		this.dirX=0;
+		this.dirY=0;
+		this.weapon = null;
+	}
+	draw() {
+		canvasContext.save();
+		canvasContext.translate(this.x+this.width/2,this.y+this.height/2);
+		canvasContext.rotate(this.angle*Math.PI/180);
+		canvasContext.fillStyle = this.color;
+		canvasContext.fillRect(-this.width/2,-this.height/2,this.width,this.height);
+		canvasContext.fillStyle = 'black';
+		canvasContext.fillRect(-this.width/2,-this.height/2 - .2,this.width/4,this.height/4);
+		canvasContext.fillRect(-this.width/2+this.width-2,-this.height/2 - .2,this.width/4,this.height/4);
+		canvasContext.fillRect(-this.width/8-this.width/8,-this.height/2 + this.height-this.height/4,this.width/2,this.height/4);
+		canvasContext.restore();
+		if(this.weapon !=  null){
+			this.weapon.draw(this.x+this.width/4,this.y+this.height/4);	
+		}
+	}
+}
+
+class Asteroid extends GameObject {
+	constructor(x,y,width,height,angle,color){
+		super(x,y,width,height,angle,color);
+		this.drawCords = null;
+		this.vertices = 6 + Math.floor(Math.random() * 6);
+		this.inner = 4 + Math.floor(Math.random() * 30);
+		this.outer = this.inner + Math.floor(Math.random() * this.inner);
+		this.rotateSpeed = -.05 + Math.random() * .1;
+		this.draw();
+	}
+	update() {
+		this.drawCords = updateAsteroid(this.drawCords);
+	}
+	draw() {
+		this.drawCords = drawAsteroid(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
+		this.drawCords.rotateSpeed = this.rotateSpeed;
+	}
+}
+
+class Cannon extends GameObject{
+	constructor(x,y,width,height,angle,color){
+		super(x,y,width,height,angle,color);
+	}
+	draw(x,y) {
+		canvasContext.save();
+		canvasContext.translate(x+this.width/2,y+this.height/2);
+		canvasContext.rotate(this.angle*Math.PI/180);
+		canvasContext.fillStyle = this.color;
+		canvasContext.fillRect(-this.width/2,-this.height/2,this.width,this.height);
+		canvasContext.restore();
+	}
+}
+
+// **************************	Event Handlers    **************************
+function calcMousePos(evt){
+	evt.preventDefault();
+	var rect = canvas.getBoundingClientRect(),
+		root = document.documentElement;
+	mouseX = evt.pageX - rect.left - root.scrollLeft;
+	mouseY = evt.pageY - rect.top - root.scrollTop;
+}
+
+function handleClick(evt){
+	evt.preventDefault();
+}
+
+function handleKeys(evt){
+	var moveFoward = false;
+	var moveBackward = false;
+	var turnLeft = false;
+	var turnRight = false;
+
+	switch(evt.keyCode) {
+	    case 65: {turnLeft = true; break;} //Left key
+        case 87: {moveFoward = true; break;} //Up key
+        case 68: {turnRight = true; break;}//Right key
+        case 83: {moveBackward = true; break;} //Down key
+	}
+    if(moveFoward){
+    	ship.accelY -= Math.cos((Math.PI*ship.angle)/180) * ship.speed; 
+    	ship.accelX += Math.sin((Math.PI*ship.angle)/180) * ship.speed; 
+    }
+    if(moveBackward){
+    	ship.accelY += Math.cos((Math.PI*ship.angle)/180) * ship.speed; 
+    	ship.accelX -= Math.sin((Math.PI*ship.angle)/180) * ship.speed;
+    }
+    if(turnLeft){
+    	ship.angle -= ship.turnSpeed;
+    }
+    if(turnRight){
+    	ship.angle += ship.turnSpeed;
+    }
+}
+
+
+// **************************	DRAWING   **************************
+
+function drawEverything() {
+	drawBackground();
+	for(var i = 0; i < gameObjectList.length;i+=1){
+		gameObjectList[i].update();
+	}
+}
+
+function drawBackground() {
+	canvasContext.fillStyle = 'black';
+	canvasContext.fillRect(0,0,canvas.width,canvas.height);
+}
+
+
+// **************************	PHYSICS   **************************
+
+
+function updatePhysics(object) {
+	updateVelocity(object);
+	updatePosition(object);
+	updateRotation(object);
+}
+
+function updatePosition(object) {
+	object.x += object.velX;
+	object.y += object.velY;
+	if(ship.weapon !=  null){
+		ship.weapon.angle = (180/Math.PI)*Math.atan2(mouseY-ship.y,mouseX-ship.x)-90;
+	}
+}
+
+function updateVelocity(object) {
+	object.velX = object.accelX;
+	object.velY = object.accelY;
+}
+
+function updateRotation(object) {
+
+}
+
+// **************************	NETWORK   **************************
+
+
+
+
+
+
+
+</script>
+</html>
