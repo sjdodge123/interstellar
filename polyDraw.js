@@ -1,9 +1,9 @@
-function updateAsteroid(drawCords){
+function updatePoly(drawCords){
 	_rotate(drawCords.xPoints, drawCords.yPoints, drawCords.rotateSpeed,drawCords.x,drawCords.y);
 	_updatePolygon(drawCords.xPoints, drawCords.yPoints, this.color);
 	return drawCords;
 }
-function drawAsteroid(vertices,outerR,innerR, x, y, color){
+function drawPoly(vertices,outerR,innerR, x, y, color){
 	var drawCords = {};
 	drawCords.xPoints = [];
 	drawCords.yPoints = [];
