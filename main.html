@@ -2,6 +2,7 @@
 <canvas id ="gameCanvas" width = "800" height = "600"></canvas>
 
 <script src="polyDraw.js"></script>
+<script src="spacePhysics.js"></script>
 <script type="text/javascript">
 "use strict";
 var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
@@ -40,6 +41,7 @@ window.onload = function() {
 	cannon = new Cannon(canvas.width/2,canvas.height/2,5,15,0,'red');
 	ship.weapon = cannon;
 	gameObjectList.push(ship);
+	gameObjectList.push(ship.weapon);
 	game = setInterval(update,framesPerSecond);
 	asteroidSpawn = setInterval(spawnAsteroid,1000);
 	canvas.addEventListener("mousemove", calcMousePos, false);
@@ -117,10 +119,10 @@ class Asteroid extends GameObject {
 		this.draw();
 	}
 	update() {
-		this.drawCords = updateAsteroid(this.drawCords);
+		this.drawCords = updatePoly(this.drawCords);
 	}
 	draw() {
-		this.drawCords = drawAsteroid(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
+		this.drawCords = drawPoly(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
 		this.drawCords.rotateSpeed = this.rotateSpeed;
 	}
 }
@@ -128,6 +130,10 @@ class Asteroid extends GameObject {
 class Cannon extends GameObject{
 	constructor(x,y,width,height,angle,color){
 		super(x,y,width,height,angle,color);
+	}
+	update() {
+		this.angle = (180/Math.PI)*Math.atan2(mouseY-ship.y,mouseX-ship.x)-90;
+		this.draw();
 	}
 	draw(x,y) {
 		canvasContext.save();
@@ -198,29 +204,6 @@ function drawBackground() {
 
 // **************************	PHYSICS   **************************
 
-
-function updatePhysics(object) {
-	updateVelocity(object);
-	updatePosition(object);
-	updateRotation(object);
-}
-
-function updatePosition(object) {
-	object.x += object.velX;
-	object.y += object.velY;
-	if(ship.weapon !=  null){
-		ship.weapon.angle = (180/Math.PI)*Math.atan2(mouseY-ship.y,mouseX-ship.x)-90;
-	}
-}
-
-function updateVelocity(object) {
-	object.velX = object.accelX;
-	object.velY = object.accelY;
-}
-
-function updateRotation(object) {
-
-}
 
 // **************************	NETWORK   **************************
 
