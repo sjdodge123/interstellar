@@ -1,6 +1,7 @@
 <html>
 <canvas id ="gameCanvas" width = "800" height = "600"></canvas>
 
+<script src="drawing.js"></script>
 <script src="spaceObjects.js"></script>
 <script src="polyDraw.js"></script>
 <script src="spacePhysics.js"></script>
@@ -26,32 +27,48 @@ game;
 
 
 // **************************	MAIN    **************************
-function update() {
-	clearBackground();
-	for(var i = 0; i < gameObjectList.length;i+=1){
-		gameObjectList[i].update();
-	}
-}
-
-function spawnAsteroid(evt) {
-	assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,0,0,0,'white');
-	gameObjectList.push(assTard);
-}
-
 window.onload = function() {
-	var framesPerSecond = 1000/30;
+	init();
+	startGame();
+}
+
+function init() {
 	ctx = canvas.getContext('2d');
-	ship = new ShipObject(canvas.width/2,canvas.height/2,10,30,0,'white',20);
-	cannon = new Cannon(canvas.width/2,canvas.height/2,5,15,0,'red');
-	ship.weapon = cannon;
-	gameObjectList.push(ship);
-	gameObjectList.push(ship.weapon);
+	createGameObjects();
+	setupListeners();
+}
+		function createGameObjects() {
+			ship = new ShipObject(canvas.width/2,canvas.height/2,10,30,0,'white',20);
+			cannon = new Cannon(canvas.width/2,canvas.height/2,5,15,0,'red');
+			ship.weapon = cannon;
+			gameObjectList.push(ship);
+			gameObjectList.push(ship.weapon);
+		}
+
+		function setupListeners(){
+			canvas.addEventListener("mousemove", calcMousePos, false);
+			canvas.addEventListener("click", handleClick, false);
+			window.addEventListener("keydown", handleKeys, false);
+		}
+
+function startGame() {
+	var framesPerSecond = 1000/30;
 	game = setInterval(update,framesPerSecond);
 	asteroidSpawn = setInterval(spawnAsteroid,1000);
-	canvas.addEventListener("mousemove", calcMousePos, false);
-	canvas.addEventListener("click", handleClick, false);
-	window.addEventListener("keydown", handleKeys, false);
 }
+		function update() {
+			clearBackground();
+			for(var i = 0; i < gameObjectList.length;i+=1){
+				gameObjectList[i].update();
+			}
+		}
+
+		function spawnAsteroid(evt) {
+			assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,0,0,0,'white');
+			gameObjectList.push(assTard);
+		}
+
+
 
 // **************************	Event Handlers    **************************
 function calcMousePos(evt){
@@ -93,15 +110,5 @@ function handleKeys(evt){
     	ship.angle += ship.turnSpeed;
     }
 }
-
-
-// **************************	DRAWING   **************************
-
-function clearBackground() {
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	ctx.fillStyle = 'black';
-	ctx.fillRect(0,0,canvas.width,canvas.height);
-}
-
 </script>
 </html>
