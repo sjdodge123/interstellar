@@ -17,5 +17,9 @@ function updateVelocity(object) {
 }
 
 function updateRotation(object) {
-	
+
+}
+
+function findVelocity(){
+	return {velX:20,velY:1};
 }

@@ -3,7 +3,7 @@ class GameObject {
 	constructor (x,y,width,height,angle,color) {
 		this.width = width;
 		this.height = height;
-		this.angle = 0;
+		this.angle = angle;
 		this.color = color;
 		this.x = x;
 		this.y = y;
@@ -25,8 +25,6 @@ class GameObject {
 		updatePhysics(this);
 		this.draw();
 	}
-	
-
 }
 class ShipObject extends GameObject {
 	constructor(x,y,width,height,angle,color,turnSpeed){
@@ -76,14 +74,35 @@ class Asteroid extends GameObject {
 class Cannon extends GameObject{
 	constructor(x,y,width,height,angle,color){
 		super(x,y,width,height,angle,color);
+		this.bulletList = [];
 	}
 	update() {
 		this.angle = (180/Math.PI)*Math.atan2(mouseY-ship.y,mouseX-ship.x)-90;
 		this.draw();
 	}
+	fire(x,y) {
+		var v = findVelocity(); //Stored in physics module, needs to actually return {velx vely}
+		var bullet = new Bullet(x,y,3,10,this.angle,"red",v.velX,v.velY);
+		gameObjectList.push(bullet);
+	}
 	draw(x,y) {
 		ctx.save();
 		ctx.translate(x+this.width/2,y+this.height/2);
+		ctx.rotate(this.angle*Math.PI/180);
+		ctx.fillStyle = this.color;
+		ctx.fillRect(-this.width/2,-this.height/2,this.width,this.height);
+		ctx.restore();
+	}
+}
+class Bullet extends GameObject{
+	constructor(x,y,width,height,angle,color,velX,velY){
+		super(x,y,width,height,angle,color);
+		this.velX = velX;
+		this.velY = velY;
+	}
+	draw() {
+		ctx.save();
+		ctx.translate(this.x+this.width/2,this.y+this.height/2);
 		ctx.rotate(this.angle*Math.PI/180);
 		ctx.fillStyle = this.color;
 		ctx.fillRect(-this.width/2,-this.height/2,this.width,this.height);
