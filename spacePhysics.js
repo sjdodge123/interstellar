@@ -8,6 +8,7 @@ function updatePhysics(object) {
 function updatePosition(object) {
 	object.x += object.velX;
 	object.y += object.velY;
+	
 }
 
 function updateVelocity(object) {
@@ -16,5 +17,5 @@ function updateVelocity(object) {
 }
 
 function updateRotation(object) {
-
+	
 }

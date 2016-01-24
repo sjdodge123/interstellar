@@ -1,6 +1,7 @@
 <html>
 <canvas id ="gameCanvas" width = "800" height = "600"></canvas>
 
+<script src="spaceObjects.js"></script>
 <script src="polyDraw.js"></script>
 <script src="spacePhysics.js"></script>
 <script type="text/javascript">
@@ -13,7 +14,7 @@ var width = window.innerWidth || document.documentElement.clientWidth || documen
 	canvas.height = height-50;
 
 
-var canvasContext,
+var ctx,
 mouseX,
 mouseY,
 gameObjectList = [],
@@ -26,7 +27,10 @@ game;
 
 // **************************	MAIN    **************************
 function update() {
-	drawEverything();
+	clearBackground();
+	for(var i = 0; i < gameObjectList.length;i+=1){
+		gameObjectList[i].update();
+	}
 }
 
 function spawnAsteroid(evt) {
@@ -36,7 +40,7 @@ function spawnAsteroid(evt) {
 
 window.onload = function() {
 	var framesPerSecond = 1000/30;
-	canvasContext = canvas.getContext('2d');
+	ctx = canvas.getContext('2d');
 	ship = new ShipObject(canvas.width/2,canvas.height/2,10,30,0,'white',20);
 	cannon = new Cannon(canvas.width/2,canvas.height/2,5,15,0,'red');
 	ship.weapon = cannon;
@@ -47,102 +51,6 @@ window.onload = function() {
 	canvas.addEventListener("mousemove", calcMousePos, false);
 	canvas.addEventListener("click", handleClick, false);
 	window.addEventListener("keydown", handleKeys, false);
-}
-
-
-
-// **************************	OBJECTS    **************************
-
-class GameObject {
-	constructor (x,y,width,height,angle,color) {
-		this.width = width;
-		this.height = height;
-		this.angle = 0;
-		this.color = color;
-		this.x = x;
-		this.y = y;
-		this.speed = 0;
-		this.velX = 0;
-		this.velY = 0;
-		this.accelX=0;
-		this.accelY=0;
-	}
-	draw() {
-		canvasContext.save();
-		canvasContext.translate(this.x+this.width/2,this.y+this.height/2);
-		canvasContext.rotate(this.angle*Math.PI/180);
-		canvasContext.fillStyle = 'red';
-		canvasContext.fillRect(-this.width/2,-this.height/2,this.width,this.height);
-		canvasContext.restore();
-	}
-	update() {
-		updatePhysics(this);
-		this.draw();
-	}
-	
-
-}
-class ShipObject extends GameObject {
-	constructor(x,y,width,height,angle,color,turnSpeed){
-		super(x,y,width,height,angle,color);
-		this.speed = 1;
-		this.turnSpeed = 5;
-		this.dirX=0;
-		this.dirY=0;
-		this.weapon = null;
-	}
-	draw() {
-		canvasContext.save();
-		canvasContext.translate(this.x+this.width/2,this.y+this.height/2);
-		canvasContext.rotate(this.angle*Math.PI/180);
-		canvasContext.fillStyle = this.color;
-		canvasContext.fillRect(-this.width/2,-this.height/2,this.width,this.height);
-		canvasContext.fillStyle = 'black';
-		canvasContext.fillRect(-this.width/2,-this.height/2 - .2,this.width/4,this.height/4);
-		canvasContext.fillRect(-this.width/2+this.width-2,-this.height/2 - .2,this.width/4,this.height/4);
-		canvasContext.fillRect(-this.width/8-this.width/8,-this.height/2 + this.height-this.height/4,this.width/2,this.height/4);
-		canvasContext.restore();
-		if(this.weapon !=  null){
-			this.weapon.draw(this.x+this.width/4,this.y+this.height/4);	
-		}
-	}
-}
-
-class Asteroid extends GameObject {
-	constructor(x,y,width,height,angle,color){
-		super(x,y,width,height,angle,color);
-		this.drawCords = null;
-		this.vertices = 6 + Math.floor(Math.random() * 6);
-		this.inner = 4 + Math.floor(Math.random() * 30);
-		this.outer = this.inner + Math.floor(Math.random() * this.inner);
-		this.rotateSpeed = -.05 + Math.random() * .1;
-		this.draw();
-	}
-	update() {
-		this.drawCords = updatePoly(this.drawCords);
-	}
-	draw() {
-		this.drawCords = drawPoly(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
-		this.drawCords.rotateSpeed = this.rotateSpeed;
-	}
-}
-
-class Cannon extends GameObject{
-	constructor(x,y,width,height,angle,color){
-		super(x,y,width,height,angle,color);
-	}
-	update() {
-		this.angle = (180/Math.PI)*Math.atan2(mouseY-ship.y,mouseX-ship.x)-90;
-		this.draw();
-	}
-	draw(x,y) {
-		canvasContext.save();
-		canvasContext.translate(x+this.width/2,y+this.height/2);
-		canvasContext.rotate(this.angle*Math.PI/180);
-		canvasContext.fillStyle = this.color;
-		canvasContext.fillRect(-this.width/2,-this.height/2,this.width,this.height);
-		canvasContext.restore();
-	}
 }
 
 // **************************	Event Handlers    **************************
@@ -189,29 +97,11 @@ function handleKeys(evt){
 
 // **************************	DRAWING   **************************
 
-function drawEverything() {
-	drawBackground();
-	for(var i = 0; i < gameObjectList.length;i+=1){
-		gameObjectList[i].update();
-	}
+function clearBackground() {
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	ctx.fillStyle = 'black';
+	ctx.fillRect(0,0,canvas.width,canvas.height);
 }
-
-function drawBackground() {
-	canvasContext.fillStyle = 'black';
-	canvasContext.fillRect(0,0,canvas.width,canvas.height);
-}
-
-
-// **************************	PHYSICS   **************************
-
-
-// **************************	NETWORK   **************************
-
-
-
-
-
-
 
 </script>
 </html>

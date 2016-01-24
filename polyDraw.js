@@ -29,16 +29,16 @@ function drawPoly(vertices,outerR,innerR, x, y, color){
 	drawCords.xPoints.push(drawCords.xPoints[0]);
 	drawCords.yPoints.push(drawCords.yPoints[0]);
 	
-	canvasContext.strokeStyle = color;
+	ctx.strokeStyle = color;
 	for(var i=0; i <= drawCords.xPoints.length; i ++) {
-			canvasContext.beginPath();
+			ctx.beginPath();
 		if (i == 0){
-			canvasContext.moveTo(drawCords.xPoints[i],drawCords.yPoints[i]);
+			ctx.moveTo(drawCords.xPoints[i],drawCords.yPoints[i]);
 		}
 		else {
-			canvasContext.lineTo(drawCords.xPoints[i],drawCords.yPoints[i]);
+			ctx.lineTo(drawCords.xPoints[i],drawCords.yPoints[i]);
 		}
-		canvasContext.stroke();
+		ctx.stroke();
 	}
 	drawCords.x = x;
 	drawCords.y = y;
@@ -61,17 +61,17 @@ function _rotate(xs, ys, theta,x,y){
 }
 
 function _updatePolygon(xPoints,yPoints,color){
-	canvasContext.strokeStyle = color;
-	canvasContext.save();
-	canvasContext.beginPath();
+	ctx.strokeStyle = color;
+	ctx.save();
+	ctx.beginPath();
 	for (var i = 0; i < xPoints.length; i ++) {
 		if (i == 0) {
-			canvasContext.moveTo(xPoints[i], yPoints[i]);
+			ctx.moveTo(xPoints[i], yPoints[i]);
 		}
 		else {
-			canvasContext.lineTo(xPoints[i], yPoints[i]);
+			ctx.lineTo(xPoints[i], yPoints[i]);
 		}
 	}
-	canvasContext.stroke();
-	canvasContext.restore();
+	ctx.stroke();
+	ctx.restore();
 }
