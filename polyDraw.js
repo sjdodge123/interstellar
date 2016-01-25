@@ -1,12 +1,21 @@
 function updatePoly(drawCords){
 	_rotate(drawCords.xPoints, drawCords.yPoints, drawCords.rotateSpeed,drawCords.x,drawCords.y);
+	_rotate(drawCords.gridXs, drawCords.gridYs, drawCords.rotateSpeed, drawCords.x, drawCords.y);
 	_updatePolygon(drawCords.xPoints, drawCords.yPoints, this.color);
+	if(gridOn){
+		drawWheel(drawCords.gridXs, drawCords.gridYs, drawCords.x,drawCords.y, 
+		drawCords.innerR, drawCords.outerR);
+	}
 	return drawCords;
 }
 function drawPoly(vertices,outerR,innerR, x, y, color){
 	var drawCords = {};
 	drawCords.xPoints = [];
 	drawCords.yPoints = [];
+	drawCords.innerR = innerR;
+	drawCords.outerR = outerR;
+	drawCords.gridXs = [];
+	drawCords.gridYs = [];
 	var angleStep = 2 * Math.PI / vertices,
 	sectors = [];
 	
@@ -24,6 +33,11 @@ function drawPoly(vertices,outerR,innerR, x, y, color){
 			
 			drawCords.xPoints.push(vertX);
 			drawCords.yPoints.push(vertY);
+			
+			var gridX = x + outerR*Math.cos(sectors[i]);
+			var gridY = y + outerR*Math.sin(sectors[i]);
+			drawCords.gridXs.push(gridX);
+			drawCords.gridYs.push(gridY);
 	}
 	
 	drawCords.xPoints.push(drawCords.xPoints[0]);
@@ -44,7 +58,25 @@ function drawPoly(vertices,outerR,innerR, x, y, color){
 	drawCords.y = y;
 	return drawCords;
 }
-
+function drawWheel(xs,ys,x,y,innerR,outerR){
+	ctx.save();
+	ctx.strokeStyle = 'gray';
+	ctx.beginPath();
+	for(var i=0; i <= xs.length; i ++) {
+		ctx.moveTo(x,y);
+		ctx.lineWidth = 1;
+		ctx.lineTo(xs[i],ys[i]);
+		ctx.stroke();
+	}
+	ctx.beginPath();
+	ctx.arc(x, y, outerR, 0, 2*Math.PI);
+	ctx.stroke();
+	
+	ctx.beginPath();
+	ctx.arc(x, y, innerR, 0, 2*Math.PI);
+	ctx.stroke();
+	ctx.restore();
+}
 function _rotate(xs, ys, theta,x,y){
 	var mx = [ Math.cos(theta), -Math.sin(theta), 
 	Math.sin(theta), Math.cos(theta)];
@@ -74,4 +106,5 @@ function _updatePolygon(xPoints,yPoints,color){
 	}
 	ctx.stroke();
 	ctx.restore();
+	
 }

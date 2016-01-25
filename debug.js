@@ -25,8 +25,10 @@ function debugOverlay(){
 		overLay = new Overlay(100,100,500,400,'white');
 		debugActive = true;
 		gameObjectList.push(overLay);
+		//window.addEventListener("keydown", debugHotkeys, false);
 	} else {
 		debugActive = false;
+		gridOn = false;
 		gameObjectList.splice(gameObjectList.indexOf(overLay),1);
 		overLay = null;
 	}
@@ -34,4 +36,8 @@ function debugOverlay(){
 
 function debugClick(evt){
 	//FIND WHICH OBJECT WAS CLICKED AND DISPLAY INFORMATION ABOUT THE OBJECT
+	//var result = gameObjectList.checkCollide(mouseX,mouseY);
+	//if(result.hit){
+	//	display(result.object.stats);
+	//};
 }

@@ -18,7 +18,6 @@ var width = window.innerWidth || document.documentElement.clientWidth || documen
 	canvas.width = width-50;
 	canvas.height = height-50;
 
-
 var ctx,
 mouseX,
 mouseY,
@@ -26,6 +25,7 @@ gameObjectList = [],
 ship,
 cannon,
 assTard,
+gridOn = false,
 asteroidSpawn,
 game;
 
@@ -87,7 +87,7 @@ function handleClick(evt){
 	if(!debugActive){
 		ship.weapon.fire(mouseX,mouseY);
 	} else {
-
+		debugClick(evt);
 	}
 	evt.preventDefault();
 }
@@ -103,7 +103,12 @@ function handleKeys(evt){
         case 87: {moveFoward = true; break;} //Up key
         case 68: {turnRight = true; break;}//Right key
         case 83: {moveBackward = true; break;} //Down key
-        case 121: {debugOverlay(); evt.preventDefault(); break;}
+        case 71: {(gridOn == false ? gridOn = true : gridOn = false);  break;}
+        case 121: {
+        	debugOverlay();
+        	evt.preventDefault();
+        	break;
+        }
 	}
     if(moveFoward){
     	ship.accelY -= Math.cos((Math.PI*ship.angle)/180) * ship.speed; 
