@@ -1,7 +1,7 @@
-function updatePoly(drawCords){
+function updatePoly(drawCords,color){
 	_rotate(drawCords.xPoints, drawCords.yPoints, drawCords.rotateSpeed,drawCords.x,drawCords.y);
 	_rotate(drawCords.gridXs, drawCords.gridYs, drawCords.rotateSpeed, drawCords.x, drawCords.y);
-	_updatePolygon(drawCords.xPoints, drawCords.yPoints, this.color);
+	_updatePolygon(drawCords.xPoints, drawCords.yPoints, color);
 	if(gridOn){
 		drawWheel(drawCords.gridXs, drawCords.gridYs, drawCords.x,drawCords.y, 
 		drawCords.innerR, drawCords.outerR);

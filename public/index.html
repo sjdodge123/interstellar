@@ -22,6 +22,7 @@ var width = window.innerWidth || document.documentElement.clientWidth || documen
 var ctx,
 mouseX,
 mouseY,
+asteroids = [],
 gameObjectList = [],
 myShip,
 cannon,
@@ -50,6 +51,7 @@ function initOffline() {
 	console.log('Playing Offline');
 	createGameObjects();
 	setupListeners();
+	//spawnAsteroid(null);
 	asteroidSpawn = setInterval(spawnAsteroid,1000);
 }
 		function createGameObjects() {
@@ -59,7 +61,6 @@ function initOffline() {
 			gameObjectList.push(myShip);
 			gameObjectList.push(myShip.weapon);
 		}
-
 		function setupListeners(){
 			canvas.addEventListener("mousemove", calcMousePos, false);
 			canvas.addEventListener("click", handleClick, false);
@@ -69,6 +70,7 @@ function initOffline() {
 		function spawnAsteroid(evt) {
 			assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,0,0,0,'white');
 			gameObjectList.push(assTard);
+			asteroids.push(assTard);
 		}
 
 function initOnline() {

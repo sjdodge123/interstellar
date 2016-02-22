@@ -58,6 +58,7 @@ class Asteroid extends GameObject {
 	constructor(x,y,width,height,angle,color){
 		super(x,y,width,height,angle,color);
 		this.drawCords = null;
+		this.isHit = false;
 		this.vertices = 6 + Math.floor(Math.random() * 6);
 		this.inner = 4 + Math.floor(Math.random() * 30);
 		this.outer = this.inner + Math.floor(Math.random() * this.inner);
@@ -65,7 +66,15 @@ class Asteroid extends GameObject {
 		this.draw();
 	}
 	update() {
-		this.drawCords = updatePoly(this.drawCords);
+		checkCollision(asteroids,//this
+			{drawCords:{xPoints:[mouseX],yPoints:[mouseY]}}
+		);
+		if (this.isHit){
+			this.color = 'red';
+		} else {
+			this.color = 'white';
+		}
+		this.drawCords = updatePoly(this.drawCords,this.color);
 	}
 	draw() {
 		this.drawCords = drawPoly(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
