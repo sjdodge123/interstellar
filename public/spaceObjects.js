@@ -55,21 +55,20 @@ class ShipObject extends GameObject {
 }
 
 class Asteroid extends GameObject {
-	constructor(x,y,width,height,angle,color){
-		super(x,y,width,height,angle,color);
+	constructor(x,y,inner,outer,angle,color){
+		super(x,y,0,0,angle,color);
 		this.drawCords = null;
 		this.isHit = false;
 		this.vertices = 6 + Math.floor(Math.random() * 6);
-		this.inner = 4 + Math.floor(Math.random() * 30);
-		this.outer = this.inner + Math.floor(Math.random() * this.inner);
+		this.inner = inner;
+		this.outer = outer;
 		this.rotateSpeed = -.05 + Math.random() * .1;
 		this.draw();
 	}
 	update() {
-		checkCollision(asteroids,//this
-			{drawCords:{xPoints:[mouseX],yPoints:[mouseY]}}
-		);
-		if (this.isHit){
+		if(checkCollision(asteroids,this
+			//{drawCords:{xPoints:[mouseX],yPoints:[mouseY]}}
+		)){
 			this.color = 'red';
 		} else {
 			this.color = 'white';

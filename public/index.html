@@ -51,8 +51,9 @@ function initOffline() {
 	console.log('Playing Offline');
 	createGameObjects();
 	setupListeners();
-	//spawnAsteroid(null);
-	asteroidSpawn = setInterval(spawnAsteroid,1000);
+	spawnAsteroidFixed(120,200);
+	spawnAsteroidFixed(200,200);
+	//asteroidSpawn = setInterval(spawnAsteroid,1000);
 }
 		function createGameObjects() {
 			myShip = new ShipObject(canvas.width/2,canvas.height/2,10,30,0,'white',20);
@@ -68,9 +69,21 @@ function initOffline() {
 		}
 
 		function spawnAsteroid(evt) {
-			assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,0,0,0,'white');
-			gameObjectList.push(assTard);
+			var inner = 4 + Math.floor(Math.random() * 30);
+			var outer = inner + Math.floor(Math.random() * inner);
+
+			assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,inner,outer,0,'white');
 			asteroids.push(assTard);
+			gameObjectList.push(assTard);
+			
+		}
+
+		function spawnAsteroidFixed(x,y) {
+
+			assTard = new Asteroid(x,y,20,60,0,'white');
+			asteroids.push(assTard);
+			gameObjectList.push(assTard);
+			
 		}
 
 function initOnline() {
