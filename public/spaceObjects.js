@@ -74,6 +74,8 @@ class Asteroid extends GameObject {
 			this.color = 'white';
 		}
 		this.drawCords = updatePoly(this.drawCords,this.color);
+		this.x = this.drawCords.x;
+		this.y = this.drawCords.y;
 	}
 	draw() {
 		this.drawCords = drawPoly(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
@@ -118,13 +120,4 @@ class Bullet extends GameObject{
 		ctx.fillRect(-this.width/2,-this.height/2,this.width,this.height);
 		ctx.restore();
 	}
-}
-if(exports) {
-	exports.createShipObject = (function() {
-		return new ShipObject(500,500,10,30,0,'white',20);
-	})();
-
-	exports.createCannonObject = (function () {
-		return new Cannon(500,500,5,15,0,'red');
-	})();
 }

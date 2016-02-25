@@ -1,4 +1,5 @@
 function updatePoly(drawCords,color){
+	translate(drawCords,drawCords.x+1,drawCords.y+1);
 	_rotate(drawCords.xPoints, drawCords.yPoints, drawCords.rotateSpeed,drawCords.x,drawCords.y);
 	_rotate(drawCords.gridXs, drawCords.gridYs, drawCords.rotateSpeed, drawCords.x, drawCords.y);
 	_updatePolygon(drawCords.xPoints, drawCords.yPoints, color);
@@ -77,6 +78,24 @@ function drawWheel(xs,ys,x,y,innerR,outerR){
 	ctx.stroke();
 	ctx.restore();
 }
+
+
+function translate(drawCords,newX,newY) {
+	var xs = drawCords.xPoints;
+	var ys = drawCords.yPoints;
+	var diffX = newX - drawCords.x;
+	var diffY = newY - drawCords.y;
+
+	for (var i = 0; i < xs.length; i++) {
+		xs[i] += diffX;
+		ys[i] += diffY;
+	}
+	drawCords.x = newX;
+	drawCords.y = newY;
+}
+
+
+
 function _rotate(xs, ys, theta,x,y){
 	var mx = [ Math.cos(theta), -Math.sin(theta), 
 	Math.sin(theta), Math.cos(theta)];
@@ -87,8 +106,6 @@ function _rotate(xs, ys, theta,x,y){
 		
 		xs[i] = x + _x * mx[0] + _y * mx[1];
 		ys[i] = y + _x * mx[2] + _y * mx[3];
-		
-			
 	}
 }
 

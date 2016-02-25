@@ -1,6 +1,7 @@
 <html>
 <canvas id ="gameCanvas" width = "800" height = "600"></canvas>
 
+
 <script src='socket.io/socket.io.js'></script>
 <script src="client.js"></script>
 <script src="collision.js"></script>
@@ -8,7 +9,9 @@
 <script src="drawing.js"></script>
 <script src="spaceObjects.js"></script>
 <script src="polyDraw.js"></script>
+<script src="objectSpawn.js"></script>
 <script src="spacePhysics.js"></script>
+<script src="gameBoard.js"></script>
 
 <script type="text/javascript">
 
@@ -22,14 +25,8 @@ var width = window.innerWidth || document.documentElement.clientWidth || documen
 var ctx,
 mouseX,
 mouseY,
-asteroids = [],
-gameObjectList = [],
-myShip,
-cannon,
-assTard,
 socket,
 gridOn = false,
-asteroidSpawn,
 game;
 var testBool = false;
 
@@ -51,40 +48,15 @@ function initOffline() {
 	console.log('Playing Offline');
 	createGameObjects();
 	setupListeners();
-	spawnAsteroidFixed(120,200);
-	spawnAsteroidFixed(200,200);
-	//asteroidSpawn = setInterval(spawnAsteroid,1000);
+	buildGameObjects();
 }
-		function createGameObjects() {
-			myShip = new ShipObject(canvas.width/2,canvas.height/2,10,30,0,'white',20);
-			cannon = new Cannon(canvas.width/2,canvas.height/2,5,15,0,'red');
-			myShip.weapon = cannon;
-			gameObjectList.push(myShip);
-			gameObjectList.push(myShip.weapon);
-		}
 		function setupListeners(){
 			canvas.addEventListener("mousemove", calcMousePos, false);
 			canvas.addEventListener("click", handleClick, false);
 			window.addEventListener("keydown", handleKeys, false);
 		}
 
-		function spawnAsteroid(evt) {
-			var inner = 4 + Math.floor(Math.random() * 30);
-			var outer = inner + Math.floor(Math.random() * inner);
-
-			assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,inner,outer,0,'white');
-			asteroids.push(assTard);
-			gameObjectList.push(assTard);
-			
-		}
-
-		function spawnAsteroidFixed(x,y) {
-
-			assTard = new Asteroid(x,y,20,60,0,'white');
-			asteroids.push(assTard);
-			gameObjectList.push(assTard);
-			
-		}
+		
 
 function initOnline() {
 	
@@ -119,7 +91,8 @@ function calcMousePos(evt){
 
 function handleClick(evt){
 	if(!debugActive){
-		myShip.weapon.fire(mouseX,mouseY);
+		//myShip.weapon.fire(mouseX,mouseY);
+		spawnAsteroidMouse(mouseX,mouseY);
 	} else {
 		debugClick(evt);
 	}
