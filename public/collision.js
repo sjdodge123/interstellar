@@ -1,19 +1,24 @@
-function checkCollision(objects, testObject) {
+function checkCollision(objects, testObject, counter) {
 	var answer = false;
-
+	//var objExcluded = objects;
+	//for(var i = 0; i < testObject.contains.length; i++){
+	//	console.log('testing');
+	//	objExcluded.splice(testObject.contains[i],1);
+	//}
 	for (var k = 0; k < objects.length; k++) {
 		if(_checkIfSelf(objects[k],testObject)) {
 			continue;
 		}
 		if(checkSimpleCollision(objects[k],testObject)) {
-			console.log('Simple collide');
-			if(checkDetailedCollision(objects[k],testObject)) {
+			if(checkDetailedCollision(objects[k],testObject, counter)) {
 				answer = true;
-				break;
+				testObject.isHit = answer || testObject.isHit;
+				objects[k].isHit = answer || objects[k].isHit;
+				objects[k].contains.push(counter);
 			}
 		}
 	}
-	return answer;
+	return testObject.isHit;
 }
 
 function checkSimpleCollision(object,testObject) {

@@ -59,14 +59,15 @@ class Asteroid extends GameObject {
 		super(x,y,0,0,angle,color);
 		this.drawCords = null;
 		this.isHit = false;
+		this.contains = [];
 		this.vertices = 6 + Math.floor(Math.random() * 6);
 		this.inner = inner;
 		this.outer = outer;
 		this.rotateSpeed = -.05 + Math.random() * .1;
 		this.draw();
 	}
-	update() {
-		if(checkCollision(asteroids,this
+	update(counter) {
+		if(checkCollision(asteroids,this, counter
 			//{drawCords:{xPoints:[mouseX],yPoints:[mouseY]}}
 		)){
 			this.color = 'red';
@@ -88,7 +89,7 @@ class Cannon extends GameObject{
 		super(x,y,width,height,angle,color);
 		this.bulletList = [];
 	}
-	update() {
+	update(counter) {
 		this.angle = (180/Math.PI)*Math.atan2(mouseY-myShip.y,mouseX-myShip.x)-90;
 		this.draw();
 	}
