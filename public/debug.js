@@ -1,7 +1,10 @@
 "use strict";
-var debugActive = false,
-	overLay;
 
+var debugActive = false;
+var	overLay;
+var	printItems = [];
+var fontSize = 10;
+ 
 class Overlay {
 	constructor (x,y,width,height,color) {
 		this.width = width;
@@ -17,9 +20,10 @@ class Overlay {
 	}
 	update() {
 		this.draw();
+		printDebugText();
 	}
 }
-function debugOverlay(){
+function toggleOverlay(){
 	if(!debugActive){
 		var framesPerSecond = 1000/30;
 		overLay = new Overlay(100,100,500,400,'white');
@@ -31,6 +35,25 @@ function debugOverlay(){
 		gridOn = false;
 		gameObjectList.splice(gameObjectList.indexOf(overLay),1);
 		overLay = null;
+	}
+}
+
+function print(text,index){
+	if(debugActive) {
+		printItems = [];
+		printItems = String(text).split(',');
+	}
+}
+
+function printDebugText(){
+	if(debugActive) {
+		for(var i=0;i<printItems.length;i++){
+			if(printItems != null){
+				ctx.fillStyle = "white";
+				ctx.font = "10px Arial";
+				ctx.fillText(printItems[i],overLay.x,overLay.y+fontSize+(i*fontSize));
+			}
+		}
 	}
 }
 

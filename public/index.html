@@ -5,12 +5,13 @@
 <script src='socket.io/socket.io.js'></script>
 <script src="client.js"></script>
 <script src="collision.js"></script>
-<script src="debug.js"></script>
 <script src="drawing.js"></script>
 <script src="spaceObjects.js"></script>
 <script src="polyDraw.js"></script>
 <script src="objectSpawn.js"></script>
 <script src="spacePhysics.js"></script>
+<script src="utils.js"></script>
+<script src="debug.js"></script>
 <script src="gameBoard.js"></script>
 
 <script type="text/javascript">
@@ -29,6 +30,12 @@ socket,
 gridOn = false,
 game;
 var testBool = false;
+var camera = {
+	left: 0,
+	right: canvas.width,
+	top: 0,
+	bottom: canvas.height
+};
 
 // **************************	MAIN    **************************
 
@@ -69,6 +76,10 @@ function startGame() {
 }
 		function update() {
 			clearBackground();
+
+			console.log(broadBase(asteroids,camera));
+
+
 			for(var i = 0; i < gameObjectList.length;i+=1){ //initialize collision check, FIX for asteroids, might want to separate asteroids from ship, unless ship has some collision method
 				if(gameObjectList[i] != null) {
 					gameObjectList[i].isHit = false;
@@ -96,12 +107,12 @@ function calcMousePos(evt){
 }
 
 function handleClick(evt){
-	if(!debugActive){
+	//if(!debugActive){
 		//myShip.weapon.fire(mouseX,mouseY);
-		spawnAsteroidMouse(mouseX,mouseY);
-	} else {
-		debugClick(evt);
-	}
+		spawnAsteroidFixed(mouseX,mouseY);
+	//} else {
+	//	debugClick(evt);
+	//}
 	evt.preventDefault();
 }
 
@@ -118,7 +129,7 @@ function handleKeys(evt){
         case 83: {moveBackward = true; break;} //Down key
         case 71: {(gridOn == false ? gridOn = true : gridOn = false);  break;}
         case 121: {
-        	debugOverlay();
+        	toggleOverlay();
         	evt.preventDefault();
         	break;
         }

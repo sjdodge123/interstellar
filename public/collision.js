@@ -1,10 +1,43 @@
+var pairList = [];
+
+function broadBase(array,cameraBox) {
+	_findAllSides(array);
+  	pairList = prune(sweep(array, cameraBox));
+}
+
+function sweep(array, box) {
+  var sweepList = [];
+  
+  var inBounds = filterBounds(array, box);
+  for (var i = 0; i < inBounds.length; i++) {
+    inBounds[i].leftDist = findDistance(inBounds[i].left, box.left);
+    inBounds[i].rightDist = findDistance(inBounds[i].right, box.left);
+    sweepList.push(inBounds[i]);
+  }
+  sortSweeps(sweepList);
+  return sweepList;
+}
+
+function prune(sweepList) {
+  var pairList = [],
+    len = sweepList.length - 1;
+  for (var i = 0; i < len; i++) {
+    for (var j = i + 1; j < len + 1; j++) {
+      if (sweepList[i].rightDist >= sweepList[j].leftDist) {
+        pairList.push({
+          hit1: sweepList[i],
+          hit2: sweepList[j]
+        });
+      }
+    }
+
+  }
+  return pairList;
+}
+
 function checkCollision(objects, testObject, counter) {
 	var answer = false;
-	//var objExcluded = objects;
-	//for(var i = 0; i < testObject.contains.length; i++){
-	//	console.log('testing');
-	//	objExcluded.splice(testObject.contains[i],1);
-	//}
+
 	for (var k = 0; k < objects.length; k++) {
 		if(_checkIfSelf(objects[k],testObject)) {
 			continue;
@@ -22,33 +55,27 @@ function checkCollision(objects, testObject, counter) {
 }
 
 function checkSimpleCollision(object,testObject) {
-	var objectSides,
-	testObjectSides;
 
-	objectSides = _findSides(object);
-	testObjectSides = _findSides(testObject);
-
-
-	if(objectSides.top < testObjectSides.bottom && objectSides.top > testObjectSides.top){
-		if(objectSides.right > testObjectSides.left && objectSides.right < testObjectSides.right){
+	if(object.top < testObject.bottom && object.top > testObject.top){
+		if(object.right > testObject.left && object.right < testObject.right){
 			return true;
 		}
 	}
 
-	if(objectSides.bottom > testObjectSides.top && objectSides.bottom < testObjectSides.bottom){
-		if(objectSides.left > testObjectSides.left && objectSides.left < testObjectSides.right){
+	if(object.bottom > testObject.top && object.bottom < testObject.bottom){
+		if(object.left > testObject.left && object.left < testObject.right){
 			return true;
 		}
 	}
 
-	if(objectSides.top < testObjectSides.bottom && objectSides.top > testObjectSides.top) {
-		if(objectSides.left > testObjectSides.left && objectSides.left < testObjectSides.right){
+	if(object.top < testObject.bottom && object.top > testObject.top) {
+		if(object.left > testObject.left && object.left < testObject.right){
 			return true;
 		}
 	}
 
-	if(objectSides.bottom > testObjectSides.top && objectSides.bottom < testObjectSides.bottom){
-		if(objectSides.right > testObjectSides.left && objectSides.right < testObjectSides.right){
+	if(object.bottom > testObject.top && object.bottom < testObject.bottom){
+		if(object.right > testObject.left && object.right < testObject.right){
 			return true;
 		}
 	}
@@ -84,49 +111,28 @@ function _checkIfSelf(object, testObject) {
 	return object == testObject; //|| testObject.isHit;
 }
 
+function _findAllSides(array){
+	for(var i=0;i<array.length;i++){
+		_findSides(array[i]);
+	}
+}
+
 function _findSides(object) {
-	return {top:_findTop(object),bottom:_findBottom(object),left:_findLeft(object),right:_findRight(object)};
+	object.top =_findTop(object);
+	object.bottom = _findBottom(object);
+	object.left = _findLeft(object);
+	object.right = _findRight(object);
 }
 
 function _findTop(object) {
-	return _findMin_R(object.drawCords.yPoints,0);
+	return findMin_R(object.drawCords.yPoints,0);
 }
 function _findBottom(object) {
-	return _findMax_R(object.drawCords.yPoints,0);
+	return findMax_R(object.drawCords.yPoints,0);
 }
 function _findLeft(object){
-	return _findMin_R(object.drawCords.xPoints,0);
+	return findMin_R(object.drawCords.xPoints,0);
 }
 function _findRight(object){
-	return _findMax_R(object.drawCords.xPoints,0);
-}
-
-function _findMin_R(array, index){
-	if(index == array.length - 1){
-		return array[index];
-	}
-
-	var min = _findMin_R(array,index+1);
-
-	if(array[index] < min){
-		return array[index];
-	} else {
-		return min;
-	}
-
-}
-
-function _findMax_R(array, index){
-	if(index == array.length - 1){
-		return array[index];
-	}
-
-	var max = _findMax_R(array,index+1);
-
-	if(array[index] > max){
-		return array[index];
-	} else {
-		return max;
-	}
-
+	return findMax_R(object.drawCords.xPoints,0);
 }
