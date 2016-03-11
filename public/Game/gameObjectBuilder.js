@@ -3,14 +3,14 @@ function spawnAsteroidsRandom(evt) {
 	var inner = 4 + Math.floor(Math.random() * 30);
 	var outer = inner + Math.floor(Math.random() * inner);
 
-	assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,inner,outer,0,'white');
+	var assTard = new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height,inner,outer,0,'white');
 	asteroids.push(assTard);
 	gameObjectList.push(assTard);
 }
 
 function spawnAsteroidFixed(x,y) {
 
-	assTard = new Asteroid(x,y,20,60,0,'white');
+	var assTard = new Asteroid(x,y,20,60,0,'white');
 	asteroids.push(assTard);
 	gameObjectList.push(assTard);
 	
@@ -20,10 +20,10 @@ function spawnAsteroidMouse(mouseX,mouseY) {
 	var inner = 4 + Math.floor(Math.random() * 30);
 	var outer = inner + Math.floor(Math.random() * inner);
 
-	assTard = new Asteroid(mouseX,mouseY,inner,outer,0,'white');
+	var assTard = new Asteroid(mouseX,mouseY,inner,outer,0,'white');
 	asteroids.push(assTard);
 	gameObjectList.push(assTard);
-	
+	return assTard;
 }
 
 

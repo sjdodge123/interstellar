@@ -59,17 +59,14 @@ class Asteroid extends GameObject {
 		super(x,y,0,0,angle,color);
 		this.drawCords = null;
 		this.isHit = false;
-		this.contains = [];
 		this.vertices = 6 + Math.floor(Math.random() * 6);
 		this.inner = inner;
 		this.outer = outer;
 		this.rotateSpeed = -.05 + Math.random() * .1;
 		this.draw();
 	}
-	update(counter) {
-		if(checkCollision(asteroids,this, counter
-			//{drawCords:{xPoints:[mouseX],yPoints:[mouseY]}}
-		)){
+	update() {
+		if(this.isHit){
 			this.color = 'red';
 		} else {
 			this.color = 'white';
@@ -81,6 +78,9 @@ class Asteroid extends GameObject {
 	draw() {
 		this.drawCords = drawPoly(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
 		this.drawCords.rotateSpeed = this.rotateSpeed;
+	}
+	translate(x,y) {
+		translatePoly(this.drawCords,x,y);
 	}
 }
 

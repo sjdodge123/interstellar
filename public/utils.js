@@ -18,17 +18,6 @@ function sortArray(array){
 	return array;
 }
 
-function sortSweeps(sweepList) {
-  var len = sweepList.length;
-  for (var i = 1; i < len; i++) {
-    var temp = sweepList[i];
-    for (var j = i - 1; j >= 0 && sweepList[j].leftDist > temp.leftDist; j--) {
-      sweepList[j + 1] = sweepList[j];
-    }
-    sweepList[j + 1] = temp;
-  }
-}
-
 function filterBounds(array, box) {
   var inBounds = [];
   for (var i = 0; i < array.length; i++) {
@@ -81,4 +70,15 @@ function findMax_R(array, index){
 
 function findDistance(x, x1) {
   return x - x1;
+}
+
+function sortSweeps(sweepList) {
+  var len = sweepList.length;
+  for (var i = 1; i < len; i++) {
+    var temp = sweepList[i];
+    for (var j = i - 1; j >= 0 && sweepList[j].leftDist > temp.leftDist; j--) {
+      sweepList[j + 1] = sweepList[j];
+    }
+    sweepList[j + 1] = temp;
+  }
 }

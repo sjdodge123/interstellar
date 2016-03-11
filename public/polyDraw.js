@@ -1,5 +1,4 @@
 function updatePoly(drawCords,color){
-	translate(drawCords,drawCords.x+1,drawCords.y+1);
 	_rotate(drawCords.xPoints, drawCords.yPoints, drawCords.rotateSpeed,drawCords.x,drawCords.y);
 	_rotate(drawCords.gridXs, drawCords.gridYs, drawCords.rotateSpeed, drawCords.x, drawCords.y);
 	_updatePolygon(drawCords.xPoints, drawCords.yPoints, color);
@@ -80,7 +79,7 @@ function drawWheel(xs,ys,x,y,innerR,outerR){
 }
 
 
-function translate(drawCords,newX,newY) {
+function translatePoly(drawCords,newX,newY) {
 	var xs = drawCords.xPoints;
 	var ys = drawCords.yPoints;
 	var diffX = newX - drawCords.x;

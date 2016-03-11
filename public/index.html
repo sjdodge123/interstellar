@@ -1,18 +1,18 @@
-<html>
+`<html>
 <canvas id ="gameCanvas" width = "800" height = "600"></canvas>
 
 
 <script src='socket.io/socket.io.js'></script>
+<script src="Game/game.js"</script>
 <script src="client.js"></script>
 <script src="collision.js"></script>
 <script src="drawing.js"></script>
-<script src="spaceObjects.js"></script>
+<script src="inputHandling.js"></script>
 <script src="polyDraw.js"></script>
-<script src="objectSpawn.js"></script>
 <script src="spacePhysics.js"></script>
 <script src="utils.js"></script>
 <script src="debug.js"></script>
-<script src="gameBoard.js"></script>
+
 
 <script type="text/javascript">
 
@@ -24,10 +24,11 @@ var width = window.innerWidth || document.documentElement.clientWidth || documen
 	//canvas.height = height-50;
 
 var ctx,
-mouseX,
-mouseY,
+mouseX = 0,
+mouseY = 0,
 socket,
 gridOn = false,
+assTard,
 game;
 var testBool = false;
 var camera = {
@@ -53,107 +54,28 @@ window.onload = function() {
 
 function initOffline() {
 	console.log('Playing Offline');
-	createGameObjects();
+	boardInit();
 	setupListeners();
-	buildGameObjects();
 }
-		function setupListeners(){
-			canvas.addEventListener("mousemove", calcMousePos, false);
-			canvas.addEventListener("click", handleClick, false);
-			window.addEventListener("keydown", handleKeys, false);
-		}
-
 		
-
 function initOnline() {
 	
 }
-
 
 function startGame() {
 	var framesPerSecond = 1000/30;
 	game = setInterval(update,framesPerSecond);
 }
-		function update() {
-			clearBackground();
 
-			console.log(broadBase(asteroids,camera));
-
-
-			for(var i = 0; i < gameObjectList.length;i+=1){ //initialize collision check, FIX for asteroids, might want to separate asteroids from ship, unless ship has some collision method
-				if(gameObjectList[i] != null) {
-					gameObjectList[i].isHit = false;
-					gameObjectList[i].contains = [];
-				}	
-			}
-			for(var i = 0; i < gameObjectList.length;i+=1){
-				if(gameObjectList[i] != null) {
-					gameObjectList[i].update(i);
-				}	
-			}
-		}
-
-		
+function update() {
+	clearBackground();
+	checkCollision(asteroids,camera);
+	updateGameBoard();
 
 
-
-// **************************	Event Handlers    **************************
-function calcMousePos(evt){
-	evt.preventDefault();
-	var rect = canvas.getBoundingClientRect(),
-		root = document.documentElement;
-	mouseX = evt.pageX - rect.left - root.scrollLeft;
-	mouseY = evt.pageY - rect.top - root.scrollTop;
+	//DEBUG PURPOSES
+	assTard.translate(mouseX,mouseY);
 }
-
-function handleClick(evt){
-	//if(!debugActive){
-		//myShip.weapon.fire(mouseX,mouseY);
-		spawnAsteroidFixed(mouseX,mouseY);
-	//} else {
-	//	debugClick(evt);
-	//}
-	evt.preventDefault();
-}
-
-function handleKeys(evt){
-	
-	var moveFoward = false;
-	var moveBackward = false;
-	var turnLeft = false;
-	var turnRight = false;
-	switch(evt.keyCode) {
-	    case 65: {turnLeft = true; break;} //Left key
-        case 87: {moveFoward = true; break;} //Up key
-        case 68: {turnRight = true; break;}//Right key
-        case 83: {moveBackward = true; break;} //Down key
-        case 71: {(gridOn == false ? gridOn = true : gridOn = false);  break;}
-        case 121: {
-        	toggleOverlay();
-        	evt.preventDefault();
-        	break;
-        }
-	}
-    if(moveFoward){
-    	myShip.accelY -= Math.cos((Math.PI*myShip.angle)/180) * myShip.speed; 
-    	myShip.accelX += Math.sin((Math.PI*myShip.angle)/180) * myShip.speed; 
-    }
-    if(moveBackward){
-    	myShip.accelY += Math.cos((Math.PI*myShip.angle)/180) * myShip.speed; 
-    	myShip.accelX -= Math.sin((Math.PI*myShip.angle)/180) * myShip.speed;
-    }
-    if(turnLeft){
-    	myShip.angle -= myShip.turnSpeed;
-    }
-    if(turnRight){
-    	myShip.angle += myShip.turnSpeed;
-    }
-    if(socket){
-    	socket.emit('movement', myShip);
-    }
-}
-
-
 
 </script>
 </html>

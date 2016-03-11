@@ -1,60 +1,69 @@
-var pairList = [];
+
+function checkCollision(array, cameraBox){
+	var pairList = broadBase(array,cameraBox);
+	midBase(pairList);
+}
 
 function broadBase(array,cameraBox) {
 	_findAllSides(array);
-  	pairList = prune(sweep(array, cameraBox));
+	sweep(array, cameraBox);
+	return prune(array);
 }
 
 function sweep(array, box) {
-  var sweepList = [];
-  
-  var inBounds = filterBounds(array, box);
-  for (var i = 0; i < inBounds.length; i++) {
-    inBounds[i].leftDist = findDistance(inBounds[i].left, box.left);
-    inBounds[i].rightDist = findDistance(inBounds[i].right, box.left);
-    sweepList.push(inBounds[i]);
+  //var inBounds = filterBounds(array, box);
+  for (var i = 0; i < array.length; i++) {
+  	array[i].isHit = false;
+    array[i].leftDist = findDistance(array[i].left, box.left);
+    array[i].rightDist = findDistance(array[i].right, box.left);
   }
-  sortSweeps(sweepList);
-  return sweepList;
+  sortSweeps(array);
 }
 
 function prune(sweepList) {
   var pairList = [],
-    len = sweepList.length - 1;
-  for (var i = 0; i < len; i++) {
-    for (var j = i + 1; j < len + 1; j++) {
-      if (sweepList[i].rightDist >= sweepList[j].leftDist) {
-        pairList.push({
-          hit1: sweepList[i],
-          hit2: sweepList[j]
-        });
-      }
-    }
-
+  activeList = [],
+  toRemove = [];
+  activeList.push(sweepList[0]);
+  
+  for (var i = 1; i < sweepList.length; i++){
+	  for (var j = 0; j < activeList.length; j++){
+		  if (sweepList[i].leftDist >= activeList[j].rightDist){
+			  toRemove.push(j);
+		  }
+		  else{
+			  pairList.push({
+				  hit1: sweepList[i],
+				  hit2: activeList[j]
+			  });
+			  sweepList[i].isHit = true;
+			  activeList[j].isHit = true;
+		  }
+	  }
+	  for (var k = 0; k < toRemove.length; k++){
+		  activeList.splice(toRemove[k],1);
+	  }
+	  activeList.push(sweepList[i]);
   }
   return pairList;
 }
 
-function checkCollision(objects, testObject, counter) {
+function midBase(pairList) {
 	var answer = false;
 
-	for (var k = 0; k < objects.length; k++) {
-		if(_checkIfSelf(objects[k],testObject)) {
+	for (var i = 0; i < pairList.length; i++) {
+		if(_checkIfSelf(pairList[i].hit1,pairList[i].hit2)) {
 			continue;
 		}
-		if(checkSimpleCollision(objects[k],testObject)) {
-			if(checkDetailedCollision(objects[k],testObject, counter)) {
+		if(checkAABCollision(pairList[i].hit1,pairList[i].hit2)) {
+			if(narrowBase(pairList[i].hit1,pairList[i].hit2)) {
 				answer = true;
-				testObject.isHit = answer || testObject.isHit;
-				objects[k].isHit = answer || objects[k].isHit;
-				objects[k].contains.push(counter);
 			}
 		}
 	}
-	return testObject.isHit;
 }
 
-function checkSimpleCollision(object,testObject) {
+function checkAABCollision(object,testObject) {
 
 	if(object.top < testObject.bottom && object.top > testObject.top){
 		if(object.right > testObject.left && object.right < testObject.right){
@@ -82,7 +91,7 @@ function checkSimpleCollision(object,testObject) {
 	return false;
 }
 
-function checkDetailedCollision(object , testObject) {
+function narrowBase(object , testObject) {
 		var len = object.drawCords.xPoints.length,
 		isHit = false;
 		
