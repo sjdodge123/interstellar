@@ -40,8 +40,8 @@ function drawPoly(vertices,outerR,innerR, x, y, color){
 			drawCords.gridYs.push(gridY);
 	}
 	
-	drawCords.xPoints.push(drawCords.xPoints[0]);
-	drawCords.yPoints.push(drawCords.yPoints[0]);
+	//drawCords.xPoints.push(drawCords.xPoints[0]);
+	//drawCords.yPoints.push(drawCords.yPoints[0]);
 	
 	ctx.strokeStyle = color;
 	for(var i=0; i <= drawCords.xPoints.length; i ++) {
@@ -52,8 +52,10 @@ function drawPoly(vertices,outerR,innerR, x, y, color){
 		else {
 			ctx.lineTo(drawCords.xPoints[i],drawCords.yPoints[i]);
 		}
-		ctx.stroke();
+		
 	}
+	ctx.closePath();
+	ctx.stroke();
 	drawCords.x = x;
 	drawCords.y = y;
 	return drawCords;
@@ -120,6 +122,7 @@ function _updatePolygon(xPoints,yPoints,color){
 			ctx.lineTo(xPoints[i], yPoints[i]);
 		}
 	}
+	ctx.closePath();
 	ctx.stroke();
 	ctx.restore();
 	
