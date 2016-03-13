@@ -3,6 +3,7 @@ var asteroids = [],
 	myShip,
 	cannon,
 	assTard,
+	startTest = false,
 	asteroidSpawn;
 
 
@@ -12,8 +13,7 @@ function boardInit() {
 }
 
 function buildScene() {
-	spawnAsteroidFixed(120,200);
-	assTard = spawnAsteroidMouse(mouseX,mouseY);
+	buildTestScene();
 }
 
 function createPlayerObjects() {
@@ -22,6 +22,12 @@ function createPlayerObjects() {
 		myShip.weapon = cannon;
 		gameObjectList.push(myShip);
 		gameObjectList.push(myShip.weapon);
+}
+
+function buildTestScene(){
+	startTest = true;
+	spawnAsteroidFixed(120,200);
+	assTard = spawnAsteroidMouse(mouseX,mouseY);
 }
 
 function updateGameBoard() {

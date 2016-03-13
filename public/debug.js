@@ -38,7 +38,7 @@ function toggleOverlay(){
 	}
 }
 
-function print(text,index){
+function print(text){
 	if(debugActive) {
 		printItems = [];
 		printItems = String(text).split(',');

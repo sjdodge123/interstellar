@@ -13,7 +13,9 @@ function calcMousePos(evt){
 }
 
 function handleClick(evt){
-	assTard = spawnAsteroidMouse(mouseX,mouseY);
+    if(startTest){
+        assTard = spawnAsteroidMouse(mouseX,mouseY);
+    }
 	evt.preventDefault();
 }
 

@@ -5,8 +5,9 @@ var path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-var objects =  require("./public/spaceObjects.js");
+//var objects =  require("./public/spaceObjects.js");
 
+/*
 var clientID = 0;
 var client = {};
 var gameObjectList = [];
@@ -58,8 +59,9 @@ function findEmptySlot(){
 		}
 	}
 }
+*/
 
 server.listen(3000, function(){
-	setMaxPlayers();
+	//setMaxPlayers();
 	console.log('listening on *:3000');
 });
