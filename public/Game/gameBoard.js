@@ -3,8 +3,10 @@ var asteroids = [],
 	myShip,
 	cannon,
 	assTard,
+	oldMouseX=0,
+	oldMouseY=0,
 	startTest = false,
-	myguy,
+	beltObjects = [],
 	asteroidSpawn;
 
 
@@ -54,14 +56,20 @@ function createPlayerObjects() {
 function buildTestScene(){
 	//startTest = true;
 	
-	myguy = spawnAsteroidFixed(600,400);
-	//assTard = spawnAsteroidMouse(mouseX,mouseY);
+	beltObjects.push(spawnAsteroidFixed(canvas.width/2,canvas.height/2 +100));
+	beltObjects.push(spawnAsteroidFixed(canvas.width/2,canvas.height/2 +200));
+}
+
+function updateBeltObjects(){
+	for(var i=0;i<beltObjects.length;i++){
+		beltObjects[i].translate(canvas.width/2 + (canvas.width/2 -beltObjects[i].x),canvas.height/2 + (canvas.height/2 - beltObjects[i].y));
+		orbit(canvas.width/2,canvas.height/2,beltObjects[i]);
+	}
+	
 }
 
 function updateGameBoard() {
-	
-	orbit(canvas.width/2,canvas.height/2,myguy);
-
+	updateBeltObjects();
 	for(var i = 0; i < gameObjectList.length;i+=1){
 		if(gameObjectList[i] != null) {
 			gameObjectList[i].update();

@@ -7,3 +7,10 @@ function drawRect(x,y,width,height,color) {
 	ctx.fillStyle = color;
 	ctx.fillRect(x,y,width,height);
 }
+
+function drawMouseLine(newX,newY){
+	ctx.beginPath();
+	ctx.moveTo(mouseX,mouseY);
+	ctx.lineTo(newX,newY);
+	ctx.stroke();
+}

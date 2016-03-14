@@ -81,6 +81,8 @@ class Asteroid extends GameObject {
 	}
 	translate(x,y) {
 		translatePoly(this.drawCords,x,y);
+		this.x = x;
+		this.y = y;
 	}
 }
 
