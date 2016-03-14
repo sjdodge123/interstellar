@@ -1,7 +1,6 @@
 
 function checkCollision(array, cameraBox){
 	var pairList = broadBase(array,cameraBox);
-	console.log(pairList.length);
 	midBase(pairList);
 }
 

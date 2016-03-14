@@ -4,17 +4,44 @@ var asteroids = [],
 	cannon,
 	assTard,
 	startTest = false,
+	myguy,
 	asteroidSpawn;
 
 
 function boardInit() {
 	buildScene();
-	createPlayerObjects();
+	
 }
 
 function buildScene() {
 	buildTestScene();
+	//createPlayerObjects();
 }
+
+
+
+function orbit(x,y,object) {
+	var xDis = object.x-x;
+	var yDis = y-object.y;
+	var dist = Math.sqrt(xDis*xDis+yDis*yDis);
+	var angleVel = .05;
+
+	if(yDis >= 0){
+		theta = Math.acos(xDis/dist);
+	} else {
+		theta = Math.PI+(Math.PI - Math.acos(xDis/dist));
+	}
+	theta += angleVel;
+	var newX = x + dist*Math.cos(theta);
+	var newY = y - dist*Math.sin(theta);
+	object.translate(newX,newY);
+}
+
+
+
+
+
+
 
 function createPlayerObjects() {
 		myShip = new ShipObject(canvas.width/2,canvas.height/2,10,30,0,'white',20);
@@ -25,12 +52,16 @@ function createPlayerObjects() {
 }
 
 function buildTestScene(){
-	startTest = true;
-	spawnAsteroidFixed(120,200);
-	assTard = spawnAsteroidMouse(mouseX,mouseY);
+	//startTest = true;
+	
+	myguy = spawnAsteroidFixed(600,400);
+	//assTard = spawnAsteroidMouse(mouseX,mouseY);
 }
 
 function updateGameBoard() {
+	
+	orbit(canvas.width/2,canvas.height/2,myguy);
+
 	for(var i = 0; i < gameObjectList.length;i+=1){
 		if(gameObjectList[i] != null) {
 			gameObjectList[i].update();

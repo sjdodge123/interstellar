@@ -13,6 +13,7 @@ function spawnAsteroidFixed(x,y) {
 	var assTard = new Asteroid(x,y,20,60,0,'white');
 	asteroids.push(assTard);
 	gameObjectList.push(assTard);
+	return assTard;
 	
 }
 
