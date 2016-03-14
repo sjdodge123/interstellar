@@ -57,6 +57,12 @@ function printDebugText(){
 	}
 }
 
+function debugUpdate(){
+	if(assTard){
+		assTard.translate(mouseX,mouseY);
+	}
+}
+
 function debugClick(evt){
 	//FIND WHICH OBJECT WAS CLICKED AND DISPLAY INFORMATION ABOUT THE OBJECT
 	//var result = gameObjectList.checkCollide(mouseX,mouseY);

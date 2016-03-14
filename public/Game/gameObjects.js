@@ -27,20 +27,7 @@ class GameObject {
 		this.draw();
 	}
 	orbit(x,y) {
-		var xDis = this.x-x;
-		var yDis = y-this.y;
-		var dist = Math.sqrt(xDis*xDis+yDis*yDis);
-		var angleVel = .05;
-
-		if(yDis >= 0){
-			this.theta = Math.acos(xDis/dist);
-		} else {
-			this.theta = Math.PI+(Math.PI - Math.acos(xDis/dist));
-		}
-		this.theta += angleVel;
-		var newX = x + dist*Math.cos(this.theta);
-		var newY = y - dist*Math.sin(this.theta);
-		this.translate(newX,newY);
+		orbitPoint(x,y,this);
 	}
 }
 class ShipObject extends GameObject {

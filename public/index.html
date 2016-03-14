@@ -67,14 +67,12 @@ function startGame() {
 	game = setInterval(update,framesPerSecond);
 }
 
+//Main Game Loop
 function update() {
 	clearBackground();
 	checkCollision(asteroids,camera);
 	updateGameBoard();
-
-
-	//DEBUG PURPOSES
-	//assTard.translate(mouseX,mouseY);
+	debugUpdate(); //Optional call for debuging things (located in debug.js)
 }
 
 </script>

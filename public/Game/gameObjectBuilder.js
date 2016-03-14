@@ -17,7 +17,7 @@ function spawnAsteroidFixed(x,y) {
 	
 }
 
-function spawnAsteroidMouse(mouseX,mouseY) {
+function spawnAsteroidMouse() {
 	var inner = 4 + Math.floor(Math.random() * 30);
 	var outer = inner + Math.floor(Math.random() * inner);
 

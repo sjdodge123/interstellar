@@ -5,7 +5,7 @@ var asteroids = [],
 	assTard,
 	oldMouseX=0,
 	oldMouseY=0,
-	startTest = false,
+	spawnOnClick = false,
 	beltObjects = [],
 	asteroidSpawn;
 
@@ -16,7 +16,7 @@ function boardInit() {
 }
 
 function buildScene() {
-	createPlayerObjects();
+
 	buildTestScene();
 }
 
@@ -29,12 +29,20 @@ function createPlayerObjects() {
 }
 
 function buildTestScene(){
-	//startTest = true;
-	
+	//collisionTestScene();
+	beltTestScene();
+}
+
+function collisionTestScene(){
+	spawnOnClick = true;
+	spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100);
+	assTard = spawnAsteroidMouse();
+}
+
+function beltTestScene(){
+	createPlayerObjects();
 	myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100));
-	myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2 +100,canvas.height/2-100));
-	//myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2+100,canvas.height/2-75));
-	//beltObjects.push(spawnAsteroidFixed(canvas.width/2,canvas.height/2 +200));
+	//myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2 +100,canvas.height/2-100));
 }
 
 
