@@ -26,6 +26,22 @@ class GameObject {
 		updatePhysics(this);
 		this.draw();
 	}
+	orbit(x,y) {
+		var xDis = this.x-x;
+		var yDis = y-this.y;
+		var dist = Math.sqrt(xDis*xDis+yDis*yDis);
+		var angleVel = .05;
+
+		if(yDis >= 0){
+			this.theta = Math.acos(xDis/dist);
+		} else {
+			this.theta = Math.PI+(Math.PI - Math.acos(xDis/dist));
+		}
+		this.theta += angleVel;
+		var newX = x + dist*Math.cos(this.theta);
+		var newY = y - dist*Math.sin(this.theta);
+		this.translate(newX,newY);
+	}
 }
 class ShipObject extends GameObject {
 	constructor(x,y,width,height,angle,color,turnSpeed){
@@ -36,6 +52,7 @@ class ShipObject extends GameObject {
 		this.dirY=0;
 		this.weapon = null;
 		this.ID = null;
+		this.beltList = [];
 	}
 	draw() {
 		ctx.save();
@@ -52,6 +69,22 @@ class ShipObject extends GameObject {
 			this.weapon.draw(this.x+this.width/4,this.y+this.height/4);	
 		}
 	}
+	attachToBelt(object){
+		this.beltList.push(object);
+	}
+	update() {
+		updatePhysics(this);
+		this.updateBeltObjects();
+		this.draw();
+	}
+
+	updateBeltObjects() {
+	for(var i=0;i<this.beltList.length;i++){
+		this.beltList[i].translate(this.x + (this.x - this.beltList[i].x),this.y + (this.y - this.beltList[i].y));
+		this.beltList[i].orbit(this.x,this.y);
+	}
+	
+}
 }
 
 class Asteroid extends GameObject {
@@ -64,6 +97,7 @@ class Asteroid extends GameObject {
 		this.outer = outer;
 		this.rotateSpeed = -.05 + Math.random() * .1;
 		this.draw();
+		this.theta=0;
 	}
 	update() {
 		if(this.isHit){
