@@ -1,23 +1,20 @@
 function updatePhysics(object) {
 	updateVelocity(object);
-	updatePosition(object);
-	updateRotation(object);
-	return object;
+	return updatePosition(object);
 }
 
 function updatePosition(object) {
+	var displacement = {x:object.x,y:object.y};
 	object.x += object.velX;
 	object.y += object.velY;
-	
+	displacement.x = object.x - displacement.x;
+	displacement.y = object.y - displacement.y;
+	return displacement;
 }
 
 function updateVelocity(object) {
 	object.velX = object.accelX;
 	object.velY = object.accelY;
-}
-
-function updateRotation(object) {
-
 }
 
 function findVelocity(){
@@ -28,7 +25,7 @@ function orbitPoint(x,y,object){
 	var xDis = object.x-x;
 	var yDis = y-object.y;
 	var dist = Math.sqrt(xDis*xDis+yDis*yDis);
-	var angleVel = .05;
+	var angleVel = .09;
 
 	if(yDis >= 0){
 		object.theta = Math.acos(xDis/dist);

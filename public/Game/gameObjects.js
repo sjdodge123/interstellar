@@ -60,14 +60,14 @@ class ShipObject extends GameObject {
 		this.beltList.push(object);
 	}
 	update() {
-		updatePhysics(this);
+		this.displacement = updatePhysics(this);
 		this.updateBeltObjects();
 		this.draw();
 	}
 
 	updateBeltObjects() {
 	for(var i=0;i<this.beltList.length;i++){
-		this.beltList[i].translate(this.x + (this.x - this.beltList[i].x),this.y + (this.y - this.beltList[i].y));
+		this.beltList[i].translate(this.beltList[i].x + this.displacement.x,this.beltList[i].y + this.displacement.y);
 		this.beltList[i].orbit(this.x,this.y);
 	}
 	
@@ -101,9 +101,13 @@ class Asteroid extends GameObject {
 		this.drawCords.rotateSpeed = this.rotateSpeed;
 	}
 	translate(x,y) {
+		this.displacementX = this.x;
+		this.displacementY = this.y;
 		translatePoly(this.drawCords,x,y);
 		this.x = x;
 		this.y = y;
+		this.displacementX = x - this.displacementX;
+		this.displacementY = y - this.displacementY;
 	}
 }
 

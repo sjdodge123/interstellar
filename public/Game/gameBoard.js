@@ -42,7 +42,7 @@ function collisionTestScene(){
 function beltTestScene(){
 	createPlayerObjects();
 	myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100));
-	//myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2 +100,canvas.height/2-100));
+	myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2 +100,canvas.height/2-100));
 }
 
 
