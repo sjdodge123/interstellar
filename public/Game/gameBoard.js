@@ -19,7 +19,7 @@ var asteroids = [],
 function boardInit() {
 	world = new WorldObject(0,0,5000,5000);
 	if(cameraBound){
-		camera = new CameraObject(world.width/2,world.height/2,canvas.width,canvas.height,true);
+		camera = new CameraObject(world.center.x,world.center.y,canvas.width,canvas.height,true);
 	} else {
 		camera = new CameraObject(0,0,canvas.width,canvas.height, false);
 	}
@@ -45,14 +45,15 @@ function createPlayerObjects() {
 }
 
 function buildTestScene(){
-	//collisionTestScene();
-	beltTestScene();
+	collisionTestScene();
+	//beltTestScene();
 	//cameraTestScene();
 }
 
 function collisionTestScene(){
+	//createGravityObjects();
 	spawnOnClick = true;
-	spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100);
+	spawnAsteroidFixed(world.center.x,world.center.y);
 	assTard = spawnAsteroidMouse();
 }
 
@@ -82,6 +83,8 @@ function updateGameBoard() {
 			gameObjectList[i].update();
 		}
 	}
-	myPlanet.update();
+	for(var j=0;j<gravityObjects.length;j++){
+		gravityObjects[j].update();
+	}
 	world.update();
 }

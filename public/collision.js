@@ -68,27 +68,11 @@ function midBase(pairList) {
 function checkAABCollision(object,testObject) {
 
 	if(object.top < testObject.bottom && object.top > testObject.top){
-		if(object.right > testObject.left && object.right < testObject.right){
-			return true;
-		}
+		return true;
 	}
 
 	if(object.bottom > testObject.top && object.bottom < testObject.bottom){
-		if(object.left > testObject.left && object.left < testObject.right){
-			return true;
-		}
-	}
-
-	if(object.top < testObject.bottom && object.top > testObject.top) {
-		if(object.left > testObject.left && object.left < testObject.right){
-			return true;
-		}
-	}
-
-	if(object.bottom > testObject.top && object.bottom < testObject.bottom){
-		if(object.right > testObject.left && object.right < testObject.right){
-			return true;
-		}
+		return true;
 	}
 	return false;
 }
