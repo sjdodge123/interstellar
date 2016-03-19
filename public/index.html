@@ -30,6 +30,7 @@ mouseY = canvas.height/2,
 socket,
 gridOn = false,
 assTard,
+dt,
 game;
 var testBool = false;
 
@@ -59,6 +60,8 @@ function initOnline() {
 
 function startGame() {
 	var framesPerSecond = 1000/30;
+	dt = 1;
+	//dt = 1/framesPerSecond;
 	game = setInterval(update,framesPerSecond);
 }
 

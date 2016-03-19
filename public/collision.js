@@ -14,8 +14,8 @@ function sweep(array, box) {
   //var inBounds = filterBounds(array, box);
   for (var i = 0; i < array.length; i++) {
   	array[i].isHit = false;
-    array[i].leftDist = findDistance(array[i].left, box.left);
-    array[i].rightDist = findDistance(array[i].right, box.left);
+    array[i].leftDist = array[i].left - box.left;
+    array[i].rightDist = array[i].right- box.left;
   }
   sortSweeps(array);
 }

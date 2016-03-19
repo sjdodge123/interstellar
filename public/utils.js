@@ -68,8 +68,11 @@ function findMax_R(array, index){
 
 }
 
-function findDistance(x, x1) {
-  return x - x1;
+function calcVectorMag(x1,y1,x2,y2) {
+	var xDis = x2-x1;
+	var yDis = y2-y1;
+	var dist = Math.sqrt(Math.pow(xDis,2)+Math.pow(yDis,2));
+	return {xDis:xDis,yDis:yDis,dist:dist};
 }
 
 function sortSweeps(sweepList) {

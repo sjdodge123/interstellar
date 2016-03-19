@@ -11,6 +11,8 @@ class GameObject {
 		this.speed = 0;
 		this.velX = 0;
 		this.velY = 0;
+		this.gravAccelX = 0;
+		this.gravAccelY = 0;
 		this.accelX=0;
 		this.accelY=0;
 	}
@@ -29,11 +31,15 @@ class ShipObject extends GameObject {
 	constructor(x,y,width,height,angle,color,turnSpeed){
 		super(x,y,width,height,angle,color);
 		this.thrust = 1;
-		this.turnSpeed = 20;
+		this.turnSpeed = .5;
 		this.dirX=0;
 		this.dirY=0;
+		this.velX = 0;
+		this.velY = 0;
 		this.weapon = null;
 		this.ID = null;
+		this.rotateRate = 0;
+		this.rotateAccel = 0;
 		this.beltList = [];
 	}
 	draw() {

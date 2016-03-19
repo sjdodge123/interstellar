@@ -1,6 +1,25 @@
+var gravityObjects = [];
+
 function updatePhysics(object) {
+	calculateGravity();
 	updateVelocity(object);
-	return updatePosition(object);
+	var displacement = updatePosition(object);
+	if(object.constructor.name == "ShipObject"){
+		updateRotation(object);
+		updatePlayerInput(object);
+	}
+	return displacement;
+}
+
+function calculateGravity(object){
+
+	for(var i=0;i<gravityObjects.length;i++){
+		var gravObj = gravityObjects[i];
+		var values = calcVectorMag(object.x,object.y,gravObj.x,gravObj.y);
+		var gravCont = gravObj.gravityConst/values.dist;
+		object.gravAccelX += gravCont * values.xDis/values.dist;
+		object.gravAccelY += gravCont * values.yDis/values.dist;
+	}
 }
 
 function updatePosition(object) {
@@ -13,12 +32,40 @@ function updatePosition(object) {
 }
 
 function updateVelocity(object) {
-	object.velX = object.accelX;
-	object.velY = object.accelY;
+	object.velX += object.accelX*dt + object.gravAccelX*dt -.025*object.velX;
+	object.velY += object.accelY*dt + object.gravAccelY*dt -.025*object.velY;
+	object.gravAccelX = 0;
+	object.gravAccelY = 0;
 }
 
-function findVelocity(){
-	return {velX:20,velY:1};
+function updateRotation(object) {
+	object.rotateRate += object.rotateAccel*dt -.025*object.rotateRate;
+	object.angle += object.rotateRate*dt;
+}
+
+function updatePlayerInput(object){
+	if(moveForward){
+    	myShip.accelY = -Math.cos((Math.PI*myShip.angle)/180) * myShip.thrust; 
+    	myShip.accelX = Math.sin((Math.PI*myShip.angle)/180) * myShip.thrust; 
+
+    }
+    if(moveBackward){
+    	myShip.accelY = Math.cos((Math.PI*myShip.angle)/180) * myShip.thrust; 
+    	myShip.accelX = -Math.sin((Math.PI*myShip.angle)/180) * myShip.thrust;
+    }
+    if(!moveForward && !moveBackward){
+		object.accelY = 0; 
+        object.accelX = 0;
+    }
+    if(turnLeft){
+    	myShip.rotateAccel = -myShip.turnSpeed;
+    }
+    if(turnRight){
+    	myShip.rotateAccel = myShip.turnSpeed;
+    }
+    if(!turnRight && !turnLeft){
+    	object.rotateAccel = 0;
+    }
 }
 
 function orbitPoint(x,y,object){
