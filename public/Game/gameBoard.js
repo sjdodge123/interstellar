@@ -3,6 +3,9 @@ var asteroids = [],
 	myShip,
 	cannon,
 	assTard,
+	camera,
+	world,
+	cameraBound = true,
 	oldMouseX=0,
 	oldMouseY=0,
 	spawnOnClick = false,
@@ -11,8 +14,13 @@ var asteroids = [],
 
 
 function boardInit() {
-	buildScene();
-	
+	world = new WorldObject(0,0,5000,5000);
+	if(cameraBound){
+		camera = new CameraObject(canvas.width/2,canvas.height/2,canvas.width,canvas.height,true);
+	} else {
+		camera = new CameraObject(0,0,canvas.width,canvas.height, false);
+	}
+	buildScene();	
 }
 
 function buildScene() {
@@ -30,8 +38,8 @@ function createPlayerObjects() {
 
 function buildTestScene(){
 	//collisionTestScene();
-	//beltTestScene();
-	cameraTestScene();
+	beltTestScene();
+	//cameraTestScene();
 }
 
 function collisionTestScene(){
@@ -42,9 +50,10 @@ function collisionTestScene(){
 
 function beltTestScene(){
 	createPlayerObjects();
-	spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100);
-	//myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100));
-	myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2 +100,canvas.height/2-100));
+	for(var i=0;i<world.width/50;i++){
+		spawnAsteroidsRandom(null);
+	}
+	myShip.attachToBelt(spawnAsteroidFixed(myShip.x+100+camera.offsetX,myShip.y-100+camera.offsetY));
 }
 
 function cameraTestScene(){

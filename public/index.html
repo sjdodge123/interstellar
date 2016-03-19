@@ -21,8 +21,8 @@ var width = window.innerWidth || document.documentElement.clientWidth || documen
 	height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
 
 	canvas = document.getElementById('gameCanvas');
-	//canvas.width = width-50;
-	//canvas.height = height-50;
+	canvas.width = width-50;
+	canvas.height = height-50;
 
 var ctx,
 mouseX = canvas.width/2,
@@ -30,8 +30,6 @@ mouseY = canvas.height/2,
 socket,
 gridOn = false,
 assTard,
-camera,
-cameraBound = true,
 game;
 var testBool = false;
 
@@ -62,11 +60,6 @@ function initOnline() {
 function startGame() {
 	var framesPerSecond = 1000/30;
 	game = setInterval(update,framesPerSecond);
-	if(cameraBound){
-		camera = new CameraObject(canvas.width/2,canvas.height/2,canvas.width,canvas.height,true);
-	} else {
-		camera = new CameraObject(0,0,canvas.width,canvas.height, false);
-	}
 }
 
 //Main Game Loop
