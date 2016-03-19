@@ -25,7 +25,7 @@ class CameraObject {
 		this.left = this.x-this.offsetX+this.padding;
 		this.right = this.x+this.offsetX-this.padding;
 		this.top = this.y-this.offsetY+this.padding;
-		this.bottom = this.y+this.offsetX-this.padding;
+		this.bottom = this.y+this.offsetY-this.padding;
 	}
 
 	update(x,y)
