@@ -9,7 +9,7 @@ class CameraObject {
 		this.offsetX = this.width/2;
 		this.offsetY = this.height/2;
 		this.color = 'yellow';
-		this.padding = 50;
+		this.padding = 150;
 		this.updateCameraBounds();
 	}
 
@@ -22,10 +22,10 @@ class CameraObject {
 
 	updateCameraBounds()
 	{
-		this.left = this.x+this.padding
-		this.right = this.x+this.width-this.padding;
-		this.top = this.y+this.padding;
-		this.bottom = this.y+this.height-this.padding;
+		this.left = this.x-this.offsetX+this.padding;
+		this.right = this.x+this.offsetX-this.padding;
+		this.top = this.y-this.offsetY+this.padding;
+		this.bottom = this.y+this.offsetX-this.padding;
 	}
 
 	update(x,y)

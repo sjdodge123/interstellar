@@ -73,7 +73,7 @@ function startGame() {
 function update() {
 	clearBackground();
 	timer.calcTime();
-	checkCollision(asteroids,camera);
+	checkCollision(asteroids);
 	updateGameBoard();
 	debugUpdate(); //Optional call for debuging things (located in debug.js)
 }

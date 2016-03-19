@@ -1,23 +1,24 @@
 
-function checkCollision(array, cameraBox){
-	var pairList = broadBase(array,cameraBox);
+function checkCollision(array){
+	var pairList = broadBase(array);
 	midBase(pairList);
 }
 
-function broadBase(array,cameraBox) {
+function broadBase(array) {
 	_findAllSides(array);
-	sweep(array, cameraBox);
+	sweep(array);
 	return prune(array);
 }
 
-function sweep(array, box) {
-  //var inBounds = filterBounds(array, box);
+function sweep(array) {
   for (var i = 0; i < array.length; i++) {
   	array[i].isHit = false;
-    array[i].leftDist = array[i].left - box.left;
-    array[i].rightDist = array[i].right- box.left;
+    array[i].leftDist = array[i].left - camera.x;
+    array[i].rightDist = array[i].right - camera.x;
+
+
   }
-  sortSweeps(array);
+  sortSweeps(array);  
 }
 
 function prune(sweepList) {

@@ -15,6 +15,7 @@ class GameObject {
 		this.gravAccelY = 0;
 		this.accelX=0;
 		this.accelY=0;
+		this.inBounds = false;
 	}
 	draw() {
 		fillObject(this);
