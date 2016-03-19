@@ -42,7 +42,7 @@ class WorldObject {
 	}
 	draw(){
 		ctx.strokeStyle = this.color;
-		ctx.rect(this.x-camera.x+camera.offsetX,this.y-camera.y+camera.offsetY,this.width,this.height);
+		ctx.rect(this.x-camera.x,this.y-camera.y,this.width,this.height);
 		ctx.stroke();
 	}
 	update(){

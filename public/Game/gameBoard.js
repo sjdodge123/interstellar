@@ -16,7 +16,7 @@ var asteroids = [],
 function boardInit() {
 	world = new WorldObject(0,0,5000,5000);
 	if(cameraBound){
-		camera = new CameraObject(canvas.width/2,canvas.height/2,canvas.width,canvas.height,true);
+		camera = new CameraObject(world.width/2,world.height/2,canvas.width,canvas.height,true);
 	} else {
 		camera = new CameraObject(0,0,canvas.width,canvas.height, false);
 	}
@@ -29,8 +29,8 @@ function buildScene() {
 }
 
 function createPlayerObjects() {
-		myShip = new ShipObject(canvas.width/2,canvas.height/2,10,30,0,'white',20);
-		cannon = new Cannon(canvas.width/2,canvas.height/2,5,15,0,'red');
+		myShip = new ShipObject(world.width/2,world.height/2,10,30,0,'white',20);
+		cannon = new Cannon(world.width/2,world.height/2,5,15,0,'red');
 		myShip.weapon = cannon;
 		gameObjectList.push(myShip);
 		gameObjectList.push(myShip.weapon);
@@ -54,6 +54,7 @@ function beltTestScene(){
 		spawnAsteroidsRandom(null);
 	}
 	myShip.attachToBelt(spawnAsteroidFixed(myShip.x+100+camera.offsetX,myShip.y-100+camera.offsetY));
+
 }
 
 function cameraTestScene(){
@@ -72,4 +73,5 @@ function updateGameBoard() {
 			gameObjectList[i].update();
 		}
 	}
+	world.update();
 }

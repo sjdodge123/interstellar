@@ -10,7 +10,7 @@ function drawRect(x,y,width,height,color) {
 
 function drawMouseLine(newX,newY){
 	ctx.beginPath();
-	ctx.moveTo(mouseX,mouseY);
-	ctx.lineTo(newX,newY);
+	ctx.moveTo(mouseX-camera.offsetX,mouseY-camera.offsetY);
+	ctx.lineTo(newX-camera.offsetX,newY-camera.offsetY);
 	ctx.stroke();
 }

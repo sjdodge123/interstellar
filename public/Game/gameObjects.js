@@ -15,12 +15,7 @@ class GameObject {
 		this.accelY=0;
 	}
 	draw() {
-		ctx.save();
-		ctx.translate(this.x+this.width/2,this.y+this.height/2);
-		ctx.rotate(this.angle*Math.PI/180);
-		ctx.fillStyle = 'red';
-		ctx.fillRect(-this.width/2,-this.height/2,this.width,this.height);
-		ctx.restore();
+		fillObject(this);
 	}
 	update() {
 		updatePhysics(this);
@@ -63,18 +58,18 @@ class ShipObject extends GameObject {
 		if(cameraBound)
 		{
 			camera.update(this.x,this.y);
-			console.log(camera.x,this.x);
 		}
 		this.draw();
 	}
 
 	updateBeltObjects() {
-	for(var i=0;i<this.beltList.length;i++){
-		this.beltList[i].translate(this.beltList[i].x + this.displacement.x,this.beltList[i].y + this.displacement.y);
-		this.beltList[i].orbit(this.x+camera.offsetX,this.y+camera.offsetY);
-	}
+
+		for(var i=0;i<this.beltList.length;i++){
+			this.beltList[i].translate(this.beltList[i].x + this.displacement.x,this.beltList[i].y + this.displacement.y);
+			this.beltList[i].orbit(this.x+camera.offsetX,this.y+camera.offsetY);
+		}
 	
-}
+	}
 }
 
 class Asteroid extends GameObject {
