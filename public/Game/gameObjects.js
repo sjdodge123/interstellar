@@ -96,7 +96,7 @@ class Asteroid extends GameObject {
 		} else {
 			this.color = 'white';
 		}
-		this.drawCords = updatePoly(this.drawCords,this.color);
+		this.drawCords = updatePoly(this);
 		this.x = this.drawCords.x;
 		this.y = this.drawCords.y;
 	}

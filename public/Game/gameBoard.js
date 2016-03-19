@@ -16,21 +16,6 @@ var asteroids = [],
 	asteroidSpawn;
 
 
-function boardInit() {
-	world = new WorldObject(0,0,5000,5000);
-	if(cameraBound){
-		camera = new CameraObject(world.center.x,world.center.y,canvas.width,canvas.height,true);
-	} else {
-		camera = new CameraObject(0,0,canvas.width,canvas.height, false);
-	}
-	buildScene();	
-}
-
-function buildScene() {
-	shipSpawnLoc = {x:world.x+world.center.x/2,y:world.y+world.center.y/2};
-	buildTestScene();
-}
-
 function createGravityObjects(){
 	myPlanet = new Planet(world.center.x,world.center.y,400);
 	gravityObjects.push(myPlanet);
@@ -44,13 +29,28 @@ function createPlayerObjects() {
 		gameObjectList.push(myShip.weapon);
 }
 
+function createCamera(bound) {
+	cameraBound = bound;
+	camera = new CameraObject(world.center.x,world.center.y,canvas.width,canvas.height);
+}
+
+function boardInit() {
+	world = new WorldObject(0,0,50000,50000);
+	buildScene();	
+}
+
+function buildScene() {
+	shipSpawnLoc = {x:world.x+world.center.x/2,y:world.y+world.center.y/2};
+	buildTestScene();
+}
+
 function buildTestScene(){
-	collisionTestScene();
-	//beltTestScene();
-	//cameraTestScene();
+	//collisionTestScene();
+	beltTestScene();
 }
 
 function collisionTestScene(){
+	createCamera(false);
 	//createGravityObjects();
 	spawnOnClick = true;
 	spawnAsteroidFixed(world.center.x,world.center.y);
@@ -58,23 +58,15 @@ function collisionTestScene(){
 }
 
 function beltTestScene(){
+	createCamera(true);
 	createGravityObjects();
 	createPlayerObjects();
-	for(var i=0;i<world.width/50;i++){
+	for(var i=0;i<world.width/25;i++){
 		spawnAsteroidsRandom(null);
 	}
 	myShip.attachToBelt(spawnAsteroidFixed(myShip.x+100+camera.offsetX,myShip.y-100+camera.offsetY));
 
 }
-
-function cameraTestScene(){
-	createPlayerObjects();
-	spawnAsteroidsRandom(null);
-	spawnAsteroidsRandom(null);
-	spawnAsteroidsRandom(null);
-	spawnAsteroidsRandom(null);
-}
-
 
 
 function updateGameBoard() {
@@ -85,6 +77,9 @@ function updateGameBoard() {
 	}
 	for(var j=0;j<gravityObjects.length;j++){
 		gravityObjects[j].update();
+	}
+	if(!cameraBound){
+		camera.update(camera.x,camera.y);
 	}
 	world.update();
 }

@@ -13,6 +13,7 @@
 <script src="spacePhysics.js"></script>
 <script src="utils.js"></script>
 <script src="debug.js"></script>
+<script src="timer.js"></script>
 
 
 
@@ -32,6 +33,7 @@ socket,
 gridOn = false,
 assTard,
 dt,
+timer,
 game;
 var testBool = false;
 
@@ -61,6 +63,7 @@ function initOnline() {
 
 function startGame() {
 	var framesPerSecond = 1000/30;
+	timer = new Timer();
 	dt = 1;
 	//dt = 1/framesPerSecond;
 	game = setInterval(update,framesPerSecond);
@@ -69,6 +72,7 @@ function startGame() {
 //Main Game Loop
 function update() {
 	clearBackground();
+	timer.calcTime();
 	checkCollision(asteroids,camera);
 	updateGameBoard();
 	debugUpdate(); //Optional call for debuging things (located in debug.js)

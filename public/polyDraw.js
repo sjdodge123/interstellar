@@ -1,7 +1,10 @@
-function updatePoly(drawCords,color){
+function updatePoly(object){
+	var drawCords = object.drawCords;
 	_rotate(drawCords.xPoints, drawCords.yPoints, drawCords.rotateSpeed,drawCords.x,drawCords.y);
 	_rotate(drawCords.gridXs, drawCords.gridYs, drawCords.rotateSpeed, drawCords.x, drawCords.y);
-	_updatePolygon(drawCords.xPoints, drawCords.yPoints, color);
+	if(checkBounds(object,camera)){
+		_updatePolygon(drawCords.xPoints, drawCords.yPoints, object.color);
+	}
 	if(gridOn){
 		drawWheel(drawCords.gridXs, drawCords.gridYs, drawCords.x,drawCords.y, 
 		drawCords.innerR, drawCords.outerR);
@@ -39,23 +42,6 @@ function drawPoly(vertices,outerR,innerR, x, y, color){
 			drawCords.gridXs.push(gridX);
 			drawCords.gridYs.push(gridY);
 	}
-	
-	//drawCords.xPoints.push(drawCords.xPoints[0]);
-	//drawCords.yPoints.push(drawCords.yPoints[0]);
-	
-	ctx.strokeStyle = color;
-	for(var i=0; i <= drawCords.xPoints.length; i ++) {
-			ctx.beginPath();
-		if (i == 0){
-			ctx.moveTo(drawCords.xPoints[i],drawCords.yPoints[i]);
-		}
-		else {
-			ctx.lineTo(drawCords.xPoints[i],drawCords.yPoints[i]);
-		}
-		
-	}
-	ctx.closePath();
-	ctx.stroke();
 	drawCords.x = x;
 	drawCords.y = y;
 	return drawCords;

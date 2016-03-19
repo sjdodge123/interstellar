@@ -1,34 +1,39 @@
 "use strict";
 
 class CameraObject {
-	constructor (x,y,width,height,center){
+	constructor (x,y,width,height){
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.offsetX = this.width/2;
 		this.offsetY = this.height/2;
-		if(center){
-			this.updateCameraBounds();
-		} else {
-			this.left = x;
-			this.right = width;
-			this.top = y;
-			this.bottom = height;
-		}
+		this.color = 'yellow';
+		this.padding = 50;
+		this.updateCameraBounds();
 	}
+
+	draw() {
+		ctx.beginPath();
+		ctx.strokeStyle = this.color;
+		ctx.rect(this.padding,this.padding,this.width-this.padding*2,this.height-this.padding*2);
+		ctx.stroke();
+	}
+
 	updateCameraBounds()
 	{
-		this.left = this.x-this.width/2;
-		this.right = this.x+this.width/2;
-		this.top = this.y-this.height/2;
-		this.bottom = this.y+this.height/2;
+		this.left = this.x+this.padding
+		this.right = this.x+this.width-this.padding;
+		this.top = this.y+this.padding;
+		this.bottom = this.y+this.height-this.padding;
 	}
+
 	update(x,y)
 	{
 		this.x = x;
 		this.y = y;
 		this.updateCameraBounds();
+		this.draw();
 	}
 }
 
