@@ -38,9 +38,10 @@ class WorldObject {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.color = 'red';
+		this.color = 'blue';
 	}
 	draw(){
+		ctx.beginPath();
 		ctx.strokeStyle = this.color;
 		ctx.rect(this.x-camera.x+camera.offsetX,this.y-camera.y+camera.offsetY,this.width,this.height);
 		ctx.stroke();

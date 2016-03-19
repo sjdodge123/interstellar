@@ -14,7 +14,6 @@ function spawnAsteroidFixed(x,y) {
 	asteroids.push(assTard);
 	gameObjectList.push(assTard);
 	return assTard;
-	
 }
 
 function spawnAsteroidMouse() {
