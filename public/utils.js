@@ -65,7 +65,7 @@ function findMax_R(array, index){
 	} else {
 		return max;
 	}
-
+   
 }
 
 function calcVectorMag(x1,y1,x2,y2) {

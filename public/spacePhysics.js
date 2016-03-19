@@ -1,7 +1,5 @@
-var gravityObjects = [];
-
 function updatePhysics(object) {
-	calculateGravity();
+	calculateGravity(object);
 	updateVelocity(object);
 	var displacement = updatePosition(object);
 	if(object.constructor.name == "ShipObject"){
@@ -16,9 +14,15 @@ function calculateGravity(object){
 	for(var i=0;i<gravityObjects.length;i++){
 		var gravObj = gravityObjects[i];
 		var values = calcVectorMag(object.x,object.y,gravObj.x,gravObj.y);
-		var gravCont = gravObj.gravityConst/values.dist;
-		object.gravAccelX += gravCont * values.xDis/values.dist;
-		object.gravAccelY += gravCont * values.yDis/values.dist;
+		if(values.dist < gravObj.gravityRadius){
+			var gravCont = gravObj.gravityConst/values.dist;
+			object.gravAccelX += gravCont * values.xDis/values.dist;
+			object.gravAccelY += gravCont * values.yDis/values.dist;
+		}
+		if(values.dist <= gravObj.radius*1.1){
+			object.velX = -object.velX;
+			object.velY = -object.velY;
+		}
 	}
 }
 

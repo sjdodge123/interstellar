@@ -39,6 +39,7 @@ class WorldObject {
 		this.width = width;
 		this.height = height;
 		this.color = 'blue';
+		this.center = {x:width/2,y:height/2};
 	}
 	draw(){
 		ctx.beginPath();

@@ -153,3 +153,33 @@ class Bullet extends GameObject{
 		ctx.restore();
 	}
 }
+
+class GravityObject {
+	constructor(gravityConst,gravityRadius){
+		this.gravityConst = gravityConst;
+		this.gravityRadius = gravityRadius;
+	}
+}
+
+class Planet extends GravityObject {
+	constructor(x,y,radius) {
+		super(500,radius*5);
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+	}
+	draw(){
+		ctx.strokeStyle = 'green';
+		ctx.beginPath();
+		ctx.arc(this.x-camera.x+camera.offsetX,this.y-camera.y+camera.offsetY,this.radius,0,Math.PI*2,true);
+		ctx.stroke();
+
+		ctx.strokeStyle = 'magenta';
+		ctx.beginPath();
+		ctx.arc(this.x-camera.x+camera.offsetX,this.y-camera.y+camera.offsetY,this.gravityRadius,0,Math.PI*2,true);
+		ctx.stroke();
+	}
+	update(){
+		this.draw();
+	}
+}

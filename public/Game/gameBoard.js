@@ -9,7 +9,9 @@ var asteroids = [],
 	oldMouseX=0,
 	oldMouseY=0,
 	spawnOnClick = false,
+	myPlanet,
 	beltObjects = [],
+	gravityObjects = [],
 	asteroidSpawn;
 
 
@@ -28,9 +30,14 @@ function buildScene() {
 	buildTestScene();
 }
 
+function createGravityObjects(){
+	myPlanet = new Planet(world.center.x,world.center.y,400);
+	gravityObjects.push(myPlanet);
+}
+
 function createPlayerObjects() {
-		myShip = new ShipObject(world.width/2,world.height/2,10,30,0,'white',20);
-		cannon = new Cannon(world.width/2,world.height/2,5,15,0,'red');
+		myShip = new ShipObject(world.x,world.y,10,30,0,'white',20);
+		cannon = new Cannon(world.x,world.y,5,15,0,'red');
 		myShip.weapon = cannon;
 		gameObjectList.push(myShip);
 		gameObjectList.push(myShip.weapon);
@@ -49,6 +56,7 @@ function collisionTestScene(){
 }
 
 function beltTestScene(){
+	createGravityObjects();
 	createPlayerObjects();
 	for(var i=0;i<world.width/50;i++){
 		spawnAsteroidsRandom(null);
@@ -73,5 +81,6 @@ function updateGameBoard() {
 			gameObjectList[i].update();
 		}
 	}
+	myPlanet.update();
 	world.update();
 }
