@@ -12,6 +12,7 @@ var asteroids = [],
 	myPlanet,
 	beltObjects = [],
 	gravityObjects = [],
+	shipSpawnLoc,
 	asteroidSpawn;
 
 
@@ -26,7 +27,7 @@ function boardInit() {
 }
 
 function buildScene() {
-
+	shipSpawnLoc = {x:world.x+world.center.x/2,y:world.y+world.center.y/2};
 	buildTestScene();
 }
 
@@ -36,8 +37,8 @@ function createGravityObjects(){
 }
 
 function createPlayerObjects() {
-		myShip = new ShipObject(world.x,world.y,10,30,0,'white',20);
-		cannon = new Cannon(world.x,world.y,5,15,0,'red');
+		myShip = new ShipObject(shipSpawnLoc.x,shipSpawnLoc.y,10,30,0,'white',20);
+		cannon = new Cannon(shipSpawnLoc.x,shipSpawnLoc.y,5,15,0,'red');
 		myShip.weapon = cannon;
 		gameObjectList.push(myShip);
 		gameObjectList.push(myShip.weapon);

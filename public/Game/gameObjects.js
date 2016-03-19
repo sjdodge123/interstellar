@@ -163,7 +163,7 @@ class GravityObject {
 
 class Planet extends GravityObject {
 	constructor(x,y,radius) {
-		super(500,radius*5);
+		super(500,radius*4);
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
