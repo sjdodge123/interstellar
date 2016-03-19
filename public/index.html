@@ -2,7 +2,7 @@
 <canvas id ="gameCanvas" width = "800" height = "600"></canvas>
 
 
-<script src='socket.io/socket.io.js'></script>
+<script src="socket.io/socket.io.js"></script>
 <script src="Game/game.js"</script>
 <script src="client.js"></script>
 <script src="collision.js"></script>
@@ -12,6 +12,7 @@
 <script src="spacePhysics.js"></script>
 <script src="utils.js"></script>
 <script src="debug.js"></script>
+<script src="engineObjects.js"></script>
 
 
 <script type="text/javascript">
@@ -29,14 +30,10 @@ mouseY = canvas.height/2,
 socket,
 gridOn = false,
 assTard,
+camera,
+cameraBound = true,
 game;
 var testBool = false;
-var camera = {
-	left: 0,
-	right: canvas.width,
-	top: 0,
-	bottom: canvas.height
-};
 
 // **************************	MAIN    **************************
 
@@ -65,6 +62,11 @@ function initOnline() {
 function startGame() {
 	var framesPerSecond = 1000/30;
 	game = setInterval(update,framesPerSecond);
+	if(cameraBound){
+		camera = new CameraObject(canvas.width/2,canvas.height/2,canvas.width,canvas.height,true);
+	} else {
+		camera = new CameraObject(0,0,canvas.width,canvas.height, false);
+	}
 }
 
 //Main Game Loop
@@ -72,6 +74,7 @@ function update() {
 	clearBackground();
 	checkCollision(asteroids,camera);
 	updateGameBoard();
+
 	debugUpdate(); //Optional call for debuging things (located in debug.js)
 }
 

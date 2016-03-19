@@ -33,8 +33,8 @@ class GameObject {
 class ShipObject extends GameObject {
 	constructor(x,y,width,height,angle,color,turnSpeed){
 		super(x,y,width,height,angle,color);
-		this.speed = 1;
-		this.turnSpeed = 5;
+		this.thrust = 1;
+		this.turnSpeed = 20;
 		this.dirX=0;
 		this.dirY=0;
 		this.weapon = null;
@@ -43,25 +43,28 @@ class ShipObject extends GameObject {
 	}
 	draw() {
 		ctx.save();
-		ctx.translate(this.x+this.width/2,this.y+this.height/2);
+		ctx.translate(this.width/2+camera.offsetX,this.height/2+camera.offsetY);
 		ctx.rotate(this.angle*Math.PI/180);
 		ctx.fillStyle = this.color;
 		ctx.fillRect(-this.width/2,-this.height/2,this.width,this.height);
-		ctx.fillStyle = 'black';
-		ctx.fillRect(-this.width/2,-this.height/2 - .2,this.width/4,this.height/4);
-		ctx.fillRect(-this.width/2+this.width-2,-this.height/2 - .2,this.width/4,this.height/4);
-		ctx.fillRect(-this.width/8-this.width/8,-this.height/2 + this.height-this.height/4,this.width/2,this.height/4);
 		ctx.restore();
 		if(this.weapon !=  null){
-			this.weapon.draw(this.x+this.width/4,this.y+this.height/4);	
+			this.weapon.draw(this.width/2+camera.offsetX,this.height/2+camera.offsetY);	
 		}
+
 	}
 	attachToBelt(object){
 		this.beltList.push(object);
 	}
 	update() {
+
 		this.displacement = updatePhysics(this);
 		this.updateBeltObjects();
+		if(cameraBound)
+		{
+			camera.update(this.x,this.y);
+			console.log(camera.x,this.x);
+		}
 		this.draw();
 	}
 
@@ -116,8 +119,8 @@ class Cannon extends GameObject{
 		super(x,y,width,height,angle,color);
 		this.bulletList = [];
 	}
-	update(counter) {
-		this.angle = (180/Math.PI)*Math.atan2(mouseY-myShip.y,mouseX-myShip.x)-90;
+	update() {
+		this.angle = (180/Math.PI)*Math.atan2(mouseY-camera.offsetY,mouseX-camera.offsetX)-90;
 		this.draw();
 	}
 	fire(x,y) {
@@ -127,7 +130,7 @@ class Cannon extends GameObject{
 	}
 	draw(x,y) {
 		ctx.save();
-		ctx.translate(x+this.width/2,y+this.height/2);
+		ctx.translate(x,y);
 		ctx.rotate(this.angle*Math.PI/180);
 		ctx.fillStyle = this.color;
 		ctx.fillRect(-this.width/2,-this.height/2,this.width,this.height);

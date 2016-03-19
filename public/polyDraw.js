@@ -116,10 +116,10 @@ function _updatePolygon(xPoints,yPoints,color){
 	ctx.beginPath();
 	for (var i = 0; i < xPoints.length; i ++) {
 		if (i == 0) {
-			ctx.moveTo(xPoints[i], yPoints[i]);
+			ctx.moveTo(xPoints[i]-camera.x, yPoints[i]-camera.y);
 		}
 		else {
-			ctx.lineTo(xPoints[i], yPoints[i]);
+			ctx.lineTo(xPoints[i]-camera.x, yPoints[i]-camera.y);
 		}
 	}
 	ctx.closePath();

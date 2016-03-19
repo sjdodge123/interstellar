@@ -30,7 +30,8 @@ function createPlayerObjects() {
 
 function buildTestScene(){
 	//collisionTestScene();
-	beltTestScene();
+	//beltTestScene();
+	cameraTestScene();
 }
 
 function collisionTestScene(){
@@ -41,8 +42,17 @@ function collisionTestScene(){
 
 function beltTestScene(){
 	createPlayerObjects();
-	myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100));
+	spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100);
+	//myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2+100,canvas.height/2+100));
 	myShip.attachToBelt(spawnAsteroidFixed(canvas.width/2 +100,canvas.height/2-100));
+}
+
+function cameraTestScene(){
+	createPlayerObjects();
+	spawnAsteroidsRandom(null);
+	spawnAsteroidsRandom(null);
+	spawnAsteroidsRandom(null);
+	spawnAsteroidsRandom(null);
 }
 
 
