@@ -79,9 +79,10 @@ function sortSweeps(sweepList) {
   var len = sweepList.length;
   for (var i = 1; i < len; i++) {
     var temp = sweepList[i];
-    for (var j = i - 1; j >= 0 && sweepList[j].leftDist > temp.leftDist; j--) {
+    for (var j = i - 1; j >= 0 && sweepList[j].left > temp.left; j--) {
       sweepList[j + 1] = sweepList[j];
     }
     sweepList[j + 1] = temp;
   }
+  return sweepList;
 }

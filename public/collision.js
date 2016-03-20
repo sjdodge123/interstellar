@@ -1,6 +1,14 @@
 
 function checkCollision(array){
 	var pairList = broadBase(array);
+	print("Objects in pairList: " + pairList);
+	/*
+	for(var i=0;i<pairList.length;i++){
+		print("Hit1 x value" + pairList[i].hit1.x);
+		print("Hit2 x value" +pairList[i].hit2.x);
+		print("---");
+	}
+	*/
 	midBase(pairList);
 }
 
@@ -17,12 +25,10 @@ function sweep(array,box) {
 	for (var i = 0; i < array.length; i++) {
 		array[i].isHit = false;
 		if(checkBounds(array[i],box)) {
-			array[i].leftDist = array[i].left - box.left;
-	   		array[i].rightDist = array[i].right - box.left;
 		    filteredSweeps.push(array[i]);
 		}
 	}
-	sortSweeps(filteredSweeps);
+	filteredSweeps = sortSweeps(filteredSweeps);
 	return filteredSweeps;  
 }
 
@@ -34,7 +40,7 @@ function prune(sweepList) {
   
   for (var i = 1; i < sweepList.length; i++){
 	  for (var j = 0; j < activeList.length; j++){
-		  if (sweepList[i].leftDist >= activeList[j].rightDist){
+		  if (sweepList[i].left >= activeList[j].right){
 			  toRemove.push(j);
 		  }
 		  else{

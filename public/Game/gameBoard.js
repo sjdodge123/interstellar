@@ -17,7 +17,7 @@ var asteroids = [],
 
 
 function createGravityObjects(){
-	myPlanet = new Planet(world.center.x,world.center.y,400);
+	myPlanet = new Planet(world.center.x,world.center.y,2000);
 	gravityObjects.push(myPlanet);
 }
 
@@ -46,8 +46,8 @@ function buildScene() {
 }
 
 function buildTestScene(){
-	//collisionTestScene();
-	beltTestScene();
+	collisionTestScene();
+	//beltTestScene();
 }
 
 function collisionTestScene(){
