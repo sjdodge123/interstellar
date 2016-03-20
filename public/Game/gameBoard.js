@@ -63,7 +63,7 @@ function beltTestScene(){
 	createCamera(true);
 	createGravityObjects();
 	createPlayerObjects();
-	for(var i=0;i<20;i++){
+	for(var i=0;i<500;i++){
 		spawnAsteroidsRandom(null);
 	}
 	myShip.attachToBelt(spawnAsteroidFixed(myShip.x+100,myShip.y-100));

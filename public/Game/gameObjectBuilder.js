@@ -3,7 +3,7 @@ function spawnAsteroidsRandom(evt) {
 	var inner = 4 + Math.floor(Math.random() * 30);
 	var outer = inner + Math.floor(Math.random() * inner);
 
-	var assTard = new Asteroid(Math.random() * world.width+camera.offsetX, Math.random() * world.height+camera.offsetY,inner,outer,0,'white');
+	var assTard = new Asteroid(Math.random() * world.width, Math.random() * world.height,inner,outer,0,'white');
 	asteroids.push(assTard);
 	gameObjectList.push(assTard);
 }
