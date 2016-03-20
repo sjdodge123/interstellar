@@ -46,13 +46,6 @@ function print(text){
 	}
 }
 
-function printArray(printArray){
-	if(debugActive) {
-		printLines++;
-		printItems = String(printArray).split(',');
-	}
-}
-
 function printDebugText(){
 	if(debugActive) {
 		for(var i=0;i<printItems.length;i++){
