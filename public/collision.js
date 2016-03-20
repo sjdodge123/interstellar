@@ -6,21 +6,23 @@ function checkCollision(array){
 
 function broadBase(array) {
 	_findAllSides(array);
-	var filteredSweeps = sweep(array);
+	var filteredSweeps = sweep(array,camera);
+	print("Objects on screen: " + filteredSweeps.length);
+	print("Objects in world: " + String(Number(array.length)-1));
 	return prune(filteredSweeps);
 }
 
-function sweep(array) {
+function sweep(array,box) {
 	var filteredSweeps = [];
 	for (var i = 0; i < array.length; i++) {
 		array[i].isHit = false;
-		if(checkBounds(array[i],camera)) {
-		    array[i].leftDist = array[i].left - camera.left;
-		    array[i].rightDist = array[i].right - camera.left;
+		if(checkBounds(array[i],box)) {
+			array[i].leftDist = array[i].left - box.left;
+	   		array[i].rightDist = array[i].right - box.left;
 		    filteredSweeps.push(array[i]);
 		}
 	}
-	sortSweeps(array);
+	sortSweeps(filteredSweeps);
 	return filteredSweeps;  
 }
 
@@ -41,8 +43,8 @@ function prune(sweepList) {
 				  hit2: activeList[j]
 
 			  });
-			  sweepList[i].isHit = true;
-			  activeList[j].isHit = true;
+			 // sweepList[i].isHit = true;
+			 // activeList[j].isHit = true;
 		  }
 	  }
 	  for (var k = 0; k < toRemove.length; k++){
