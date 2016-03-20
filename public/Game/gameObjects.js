@@ -61,6 +61,8 @@ class ShipObject extends GameObject {
 	update() {
 
 		this.displacement = updatePhysics(this);
+		updateRotation(this);
+		updatePlayerInput(this);
 		this.updateBeltObjects();
 		if(cameraBound)
 		{

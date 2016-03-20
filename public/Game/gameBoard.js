@@ -46,12 +46,13 @@ function buildScene() {
 }
 
 function buildTestScene(){
-	//collisionTestScene();
-	beltTestScene();
+	collisionTestScene();
+	//beltTestScene();
 }
 
 function collisionTestScene(){
 	createCamera(false);
+	camera.padding = 150;
 	//createGravityObjects();
 	spawnOnClick = true;
 	spawnAsteroidFixed(world.center.x,world.center.y);
@@ -61,6 +62,7 @@ function collisionTestScene(){
 
 function beltTestScene(){
 	createCamera(true);
+	camera.padding = -15;
 	createGravityObjects();
 	createPlayerObjects();
 	for(var i=0;i<500;i++){
@@ -83,6 +85,5 @@ function updateGameBoard() {
 	if(!cameraBound){
 		camera.update(camera.x,camera.y);
 	}
-	console.log(myShip.x,myShip.y);
 	world.update();
 }

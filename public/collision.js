@@ -15,8 +15,6 @@ function sweep(array) {
   	array[i].isHit = false;
     array[i].leftDist = array[i].left - camera.x;
     array[i].rightDist = array[i].right - camera.x;
-
-
   }
   sortSweeps(array);  
 }

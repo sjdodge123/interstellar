@@ -20,7 +20,7 @@ function spawnAsteroidMouse() {
 	var inner = 4 + Math.floor(Math.random() * 30);
 	var outer = inner + Math.floor(Math.random() * inner);
 
-	var assTard = new Asteroid(mouseX,mouseY,inner,outer,0,'white');
+	var assTard = new Asteroid(camera.toWorldX(mouseX),camera.toWorldY(mouseY),inner,outer,0,'white');
 	asteroids.push(assTard);
 	gameObjectList.push(assTard);
 	return assTard;

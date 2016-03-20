@@ -35,6 +35,15 @@ class CameraObject {
 		this.updateCameraBounds();
 		this.draw();
 	}
+
+	toWorldX(x){
+		x = x + camera.x-camera.offsetX;
+		return x;
+	}
+	toWorldY(y){
+		y = y + camera.y-camera.offsetY;
+		return y;
+	}
 }
 
 class WorldObject {
@@ -55,4 +64,6 @@ class WorldObject {
 	update(){
 		this.draw();
 	}
+
+	
 }

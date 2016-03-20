@@ -2,10 +2,6 @@ function updatePhysics(object) {
 	calculateGravity(object);
 	updateVelocity(object);
 	var displacement = updatePosition(object);
-	if(object.constructor.name == "ShipObject"){
-		updateRotation(object);
-		updatePlayerInput(object);
-	}
 	return displacement;
 }
 

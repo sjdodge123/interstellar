@@ -59,7 +59,7 @@ function printDebugText(){
 
 function debugUpdate(){
 	if(assTard){
-		assTard.translate(mouseX+camera.x-camera.offsetX,mouseY+camera.y-camera.offsetY);
+		assTard.translate(camera.toWorldX(mouseX),camera.toWorldY(mouseY));
 	}
 }
 
