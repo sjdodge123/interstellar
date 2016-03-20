@@ -73,7 +73,7 @@ class ShipObject extends GameObject {
 
 		for(var i=0;i<this.beltList.length;i++){
 			this.beltList[i].translate(this.beltList[i].x + this.displacement.x,this.beltList[i].y + this.displacement.y);
-			this.beltList[i].orbit(this.x+camera.offsetX,this.y+camera.offsetY);
+			this.beltList[i].orbit(this.x,this.y);
 		}
 	
 	}

@@ -40,13 +40,14 @@ function boardInit() {
 }
 
 function buildScene() {
+	//shipSpawnLoc = {x:world.center.x,y:world.center.y};
 	shipSpawnLoc = {x:world.x+world.center.x/2,y:world.y+world.center.y/2};
 	buildTestScene();
 }
 
 function buildTestScene(){
-	collisionTestScene();
-	//beltTestScene();
+	//collisionTestScene();
+	beltTestScene();
 }
 
 function collisionTestScene(){
@@ -65,7 +66,7 @@ function beltTestScene(){
 	for(var i=0;i<20;i++){
 		spawnAsteroidsRandom(null);
 	}
-	myShip.attachToBelt(spawnAsteroidFixed(myShip.x+100+camera.offsetX,myShip.y-100+camera.offsetY));
+	myShip.attachToBelt(spawnAsteroidFixed(myShip.x+100,myShip.y-100));
 
 }
 
@@ -82,6 +83,6 @@ function updateGameBoard() {
 	if(!cameraBound){
 		camera.update(camera.x,camera.y);
 	}
-	console.log(camera.left,camera.x);
+	console.log(myShip.x,myShip.y);
 	world.update();
 }
