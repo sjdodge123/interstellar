@@ -35,7 +35,7 @@ function createCamera(bound) {
 }
 
 function boardInit() {
-	world = new WorldObject(0,0,5000,5000);
+	world = new WorldObject(0,0,50000,50000);
 	buildScene();	
 }
 
@@ -46,30 +46,36 @@ function buildScene() {
 }
 
 function buildTestScene(){
-	collisionTestScene();
-	//beltTestScene();
+	//collisionTestScene();
+	beltTestScene();
 }
 
 function collisionTestScene(){
 	createCamera(false);
 	camera.padding = 150;
 	//createGravityObjects();
-	spawnOnClick = true;
+	clickSpawn();
 	spawnAsteroidFixed(world.center.x,world.center.y);
 	spawnAsteroidFixed(world.center.x-200,world.center.y-200);
-	assTard = spawnAsteroidMouse();
+	
 }
 
 function beltTestScene(){
 	createCamera(true);
-	camera.padding = -15;
+	camera.padding = -1;
+	//clickSpawn();
 	createGravityObjects();
 	createPlayerObjects();
-	for(var i=0;i<500;i++){
+	for(var i=0;i<world.width/10;i++){
 		spawnAsteroidsRandom(null);
 	}
 	myShip.attachToBelt(spawnAsteroidFixed(myShip.x+100,myShip.y-100));
 
+}
+
+function clickSpawn(){
+	spawnOnClick = true;
+	assTard = spawnAsteroidMouse();
 }
 
 function updateGameBoard() {

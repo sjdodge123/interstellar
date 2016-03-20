@@ -3,6 +3,7 @@
 var debugActive = false;
 var	overLay;
 var	printItems = [];
+var printLines = 0;
 var fontSize = 10;
  
 class Overlay {
@@ -40,8 +41,15 @@ function toggleOverlay(){
 
 function print(text){
 	if(debugActive) {
-		printItems = [];
-		printItems = String(text).split(',');
+		printLines++;
+		printItems.push(String(text));
+	}
+}
+
+function printArray(printArray){
+	if(debugActive) {
+		printLines++;
+		printItems = String(printArray).split(',');
 	}
 }
 
@@ -51,10 +59,12 @@ function printDebugText(){
 			if(printItems != null){
 				ctx.fillStyle = "white";
 				ctx.font = "10px Arial";
-				ctx.fillText(printItems[i],overLay.x,overLay.y+fontSize+(i*fontSize));
+				ctx.fillText(printItems[i],overLay.x,overLay.y+printLines*fontSize+(i*fontSize));
 			}
 		}
 	}
+	printLines = 0;
+	printItems = [];
 }
 
 function debugUpdate(){
