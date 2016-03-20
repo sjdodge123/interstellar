@@ -72,7 +72,6 @@ function beltTestScene(){
 
 }
 
-
 function updateGameBoard() {
 	for(var i = 0; i < gameObjectList.length;i+=1){
 		if(gameObjectList[i] != null) {

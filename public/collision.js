@@ -6,17 +6,22 @@ function checkCollision(array){
 
 function broadBase(array) {
 	_findAllSides(array);
-	sweep(array);
-	return prune(array);
+	var filteredSweeps = sweep(array);
+	return prune(filteredSweeps);
 }
 
 function sweep(array) {
-  for (var i = 0; i < array.length; i++) {
-  	array[i].isHit = false;
-    array[i].leftDist = array[i].left - camera.x;
-    array[i].rightDist = array[i].right - camera.x;
-  }
-  sortSweeps(array);  
+	var filteredSweeps = [];
+	for (var i = 0; i < array.length; i++) {
+		array[i].isHit = false;
+		if(checkBounds(array[i],camera)) {
+		    array[i].leftDist = array[i].left - camera.left;
+		    array[i].rightDist = array[i].right - camera.left;
+		    filteredSweeps.push(array[i]);
+		}
+	}
+	sortSweeps(array);
+	return filteredSweeps;  
 }
 
 function prune(sweepList) {
@@ -34,9 +39,10 @@ function prune(sweepList) {
 			  pairList.push({
 				  hit1: sweepList[i],
 				  hit2: activeList[j]
+
 			  });
-			  //sweepList[i].isHit = true;
-			  //activeList[j].isHit = true;
+			  sweepList[i].isHit = true;
+			  activeList[j].isHit = true;
 		  }
 	  }
 	  for (var k = 0; k < toRemove.length; k++){
