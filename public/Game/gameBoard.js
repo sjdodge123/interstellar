@@ -23,10 +23,8 @@ function createGravityObjects(){
 
 function createPlayerObjects() {
 		myShip = new ShipObject(shipSpawnLoc.x,shipSpawnLoc.y,10,30,0,'white',20);
-		cannon = new Cannon(shipSpawnLoc.x,shipSpawnLoc.y,5,15,0,'red');
-		myShip.weapon = cannon;
+		myShip.weapon = new Cannon(shipSpawnLoc.x,shipSpawnLoc.y,5,15,0,'red');
 		gameObjectList.push(myShip);
-		gameObjectList.push(myShip.weapon);
 }
 
 function createCamera(bound) {
@@ -46,8 +44,8 @@ function buildScene() {
 }
 
 function buildTestScene(){
-	collisionTestScene();
-	//beltTestScene();
+	//collisionTestScene();
+	beltTestScene();
 }
 
 function collisionTestScene(){

@@ -59,7 +59,9 @@ class ShipObject extends GameObject {
 		this.beltList.push(object);
 	}
 	update() {
-
+		if(this.weapon){
+			this.weapon.update();
+		}
 		this.displacement = updatePhysics(this);
 		updateRotation(this);
 		updatePlayerInput(this);
@@ -125,7 +127,6 @@ class Cannon extends GameObject{
 	}
 	update() {
 		this.angle = (180/Math.PI)*Math.atan2(mouseY-camera.offsetY,mouseX-camera.offsetX)-90;
-		this.draw();
 	}
 	fire(x,y) {
 		var v = findVelocity(); //Stored in physics module, needs to actually return {velx vely}
