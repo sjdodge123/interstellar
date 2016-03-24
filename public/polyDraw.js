@@ -11,7 +11,11 @@ function updatePoly(object){
 	}
 	return drawCords;
 }
-function drawPoly(vertices,outerR,innerR, x, y, color){
+function initShipPoly(){
+	
+	
+}
+function initRoundPoly(vertices,outerR,innerR, x, y, color){
 	var drawCords = {};
 	drawCords.xPoints = [];
 	drawCords.yPoints = [];
