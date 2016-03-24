@@ -1,7 +1,8 @@
 function updatePoly(object){
 	var drawCords = object.drawCords;
-	_rotate(drawCords.xPoints, drawCords.yPoints, drawCords.rotateSpeed,drawCords.x,drawCords.y);
-	_rotate(drawCords.gridXs, drawCords.gridYs, drawCords.rotateSpeed, drawCords.x, drawCords.y);
+	
+	_rotate(drawCords.xPoints, drawCords.yPoints, object.angleRad, drawCords.x,drawCords.y);
+	//_rotate(drawCords.gridXs, drawCords.gridYs, object.angle, drawCords.x, drawCords.y);
 	if(checkBounds(object,camera)){
 		_updatePolygon(drawCords.xPoints, drawCords.yPoints, object.color);
 	}
@@ -11,8 +12,20 @@ function updatePoly(object){
 	}
 	return drawCords;
 }
-function initShipPoly(){
+function initShipPoly(x, y){
+	var drawCords = {};
+	drawCords.x = x;
+	drawCords.y = y;
+	drawCords.xPoints = [];
+	drawCords.yPoints = [];
+	drawCords.gridXs = [];
+	drawCords.gridYs = [];
 	
+	
+	drawCords.xPoints.push(x, x+5, x, x-5);
+	drawCords.yPoints.push(y-6,y+5,y+2,y+5);
+	
+	return drawCords;
 	
 }
 function initRoundPoly(vertices,outerR,innerR, x, y, color){

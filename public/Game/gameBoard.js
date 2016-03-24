@@ -23,7 +23,7 @@ function createGravityObjects(){
 
 function createPlayerObjects() {
 		myShip = new ShipObject(shipSpawnLoc.x,shipSpawnLoc.y,10,30,0,'white',20);
-		myShip.weapon = new Cannon(shipSpawnLoc.x,shipSpawnLoc.y,5,15,0,'red');
+		//myShip.weapon = new Cannon(shipSpawnLoc.x,shipSpawnLoc.y,5,15,0,'red');
 		gameObjectList.push(myShip);
 }
 

@@ -5,6 +5,8 @@ class GameObject {
 		this.width = width;
 		this.height = height;
 		this.angle = angle;
+		this.angleRad = angle*Math.PI/180;
+		this.oldAngleRad = 0;
 		this.color = color;
 		this.x = x;
 		this.y = y;
@@ -43,21 +45,23 @@ class ShipObject extends GameObject {
 		this.rotateRate = 0;
 		this.rotateAccel = 0;
 		this.beltList = [];
-		//this.xPoints = [];
-		//this.yPoints = [];
-		/*
-		this.drawCords.xPoints.push(x, x+5, x, x-5);
-		this.drawCords.yPoints.push(y+6,y-5,y-2,y-5);
-		*/
+		
+		this.drawCords = initShipPoly(this.x,this.y);
 	}
 	draw() {
-		
+		//this.drawCords.angle = this.angle;
+		/*
 		ctx.save();
 		ctx.translate(this.width/2+camera.offsetX,this.height/2+camera.offsetY);
 		ctx.rotate(this.angle*Math.PI/180);
 		ctx.fillStyle = this.color;
 		ctx.fillRect(-this.width/2,-this.height/2,this.width,this.height);
 		ctx.restore();
+		*/
+		this.angleRad = this.angle*Math.PI/180 - this.oldAngleRad;
+		this.drawCords = updatePoly(this);
+		this.x = this.drawCords.x;
+		this.y = this.drawCords.y;
 		
 		
 		if(this.weapon !=  null){
@@ -65,10 +69,24 @@ class ShipObject extends GameObject {
 		}
 
 	}
+	translate(x,y){
+		this.displacementX = this.x;
+		this.displacementY = this.y;
+		translatePoly(this.drawCords,x,y);
+		this.x = x;
+		this.y = y;
+		this.displacementX = x - this.displacementX;
+		this.displacementY = y - this.displacementY;
+	}
 	attachToBelt(object){
 		this.beltList.push(object);
 	}
 	update() {
+		if(this.isHit){
+			this.color = 'red';
+		} else {
+			this.color = 'white';
+		}
 		if(this.weapon){
 			this.weapon.update();
 		}
@@ -80,6 +98,7 @@ class ShipObject extends GameObject {
 		{
 			camera.update(this.x,this.y);
 		}
+		this.translate(this.x,this.y);
 		this.draw();
 	}
 
@@ -101,8 +120,8 @@ class Asteroid extends GameObject {
 		this.vertices = 6 + Math.floor(Math.random() * 6);
 		this.inner = inner;
 		this.outer = outer;
-		this.rotateSpeed = -.05 + Math.random() * .1;
-		this.draw();
+		this.angleRad = -.05 + Math.random() * .1;
+		this.init();
 		this.theta=0;
 	}
 	update() {
@@ -115,9 +134,9 @@ class Asteroid extends GameObject {
 		this.x = this.drawCords.x;
 		this.y = this.drawCords.y;
 	}
-	draw() {
+	init() {
 		this.drawCords = initRoundPoly(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
-		this.drawCords.rotateSpeed = this.rotateSpeed;
+		//this.drawCords.angle = this.angle;
 	}
 	translate(x,y) {
 		this.displacementX = this.x;

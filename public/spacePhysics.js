@@ -39,7 +39,8 @@ function updateVelocity(object) {
 }
 
 function updateRotation(object) {
-	object.rotateRate += object.rotateAccel*dt -.025*object.rotateRate;
+	object.oldAngleRad = object.angle*Math.PI/180;
+	object.rotateRate += object.rotateAccel*dt -.05*object.rotateRate;
 	object.angle += object.rotateRate*dt;
 }
 
@@ -65,6 +66,7 @@ function updatePlayerInput(object){
     }
     if(!turnRight && !turnLeft){
     	object.rotateAccel = 0;
+	
     }
 }
 
