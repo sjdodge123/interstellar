@@ -29,12 +29,9 @@ function toggleOverlay(){
 		var framesPerSecond = 1000/30;
 		overLay = new Overlay(100,100,500,400,'white');
 		debugActive = true;
-		gameObjectList.push(overLay);
-		//window.addEventListener("keydown", debugHotkeys, false);
 	} else {
 		debugActive = false;
 		gridOn = false;
-		gameObjectList.splice(gameObjectList.indexOf(overLay),1);
 		overLay = null;
 	}
 }
@@ -61,6 +58,9 @@ function printDebugText(){
 }
 
 function debugUpdate(){
+	if(debugActive){
+		overLay.update();
+	}
 	if(assTard){
 		assTard.translate(camera.toWorldX(mouseX),camera.toWorldY(mouseY));
 	}

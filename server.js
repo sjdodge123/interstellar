@@ -61,7 +61,7 @@ function findEmptySlot(){
 }
 */
 
-server.listen(3000, function(){
+server.listen(80, function(){
 	//setMaxPlayers();
-	console.log('listening on *:3000');
+	console.log('listening on *:80');
 });

@@ -1,0 +1,6 @@
+option batch on
+option confirm off
+open sdodge@node.dev -privatekey="C:\Users\sdodge\Desktop\nodedev\nodeprivatekey.ppk"
+option transfer binary
+synchronize remote C:\Users\sdodge\Desktop\nodedev\source /srv/www
+exit

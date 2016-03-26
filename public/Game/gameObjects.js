@@ -33,7 +33,6 @@ class GameObject {
 class ShipObject extends GameObject {
 	constructor(x,y,width,height,angle,color,turnSpeed){
 		super(x,y,width,height,angle,color);
-		//this.drawCords = null;
 		this.thrust = 1;
 		this.turnSpeed = .5;
 		this.dirX=0;
@@ -44,20 +43,10 @@ class ShipObject extends GameObject {
 		this.ID = null;
 		this.rotateRate = 0;
 		this.rotateAccel = 0;
-		this.beltList = [];
-		
+		this.beltList = [];	
 		this.drawCords = initShipPoly(this.x,this.y);
 	}
 	draw() {
-		//this.drawCords.angle = this.angle;
-		/*
-		ctx.save();
-		ctx.translate(this.width/2+camera.offsetX,this.height/2+camera.offsetY);
-		ctx.rotate(this.angle*Math.PI/180);
-		ctx.fillStyle = this.color;
-		ctx.fillRect(-this.width/2,-this.height/2,this.width,this.height);
-		ctx.restore();
-		*/
 		this.angleRad = this.angle*Math.PI/180 - this.oldAngleRad;
 		this.drawCords = updatePoly(this);
 		this.x = this.drawCords.x;
@@ -121,10 +110,11 @@ class Asteroid extends GameObject {
 		this.inner = inner;
 		this.outer = outer;
 		this.angleRad = -.05 + Math.random() * .1;
-		this.init();
 		this.theta=0;
+		this.drawCords = initRoundPoly(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
+		
 	}
-	update() {
+	draw() {
 		if(this.isHit){
 			this.color = 'red';
 		} else {
@@ -134,9 +124,8 @@ class Asteroid extends GameObject {
 		this.x = this.drawCords.x;
 		this.y = this.drawCords.y;
 	}
-	init() {
-		this.drawCords = initRoundPoly(this.vertices,this.outer,this.inner,this.x,this.y,"cyan");
-		//this.drawCords.angle = this.angle;
+	update() {
+		this.draw();
 	}
 	translate(x,y) {
 		this.displacementX = this.x;
@@ -158,7 +147,7 @@ class Cannon extends GameObject{
 		this.angle = (180/Math.PI)*Math.atan2(mouseY-camera.offsetY,mouseX-camera.offsetX)-90;
 	}
 	fire(x,y) {
-		var v = findVelocity(); //Stored in physics module, needs to actually return {velx vely}
+		var v = findVelocity();
 		var bullet = new Bullet(x,y,3,10,this.angle,"red",v.velX,v.velY);
 		gameObjectList.push(bullet);
 	}
