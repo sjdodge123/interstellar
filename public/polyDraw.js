@@ -21,9 +21,41 @@ function initShipPoly(x, y){
 	drawCords.gridXs = [];
 	drawCords.gridYs = [];
 	
+	var pointCount = getRandomInt(4,10);
+	if ((pointCount % 2) == 1){
+		pointCount +=1;
+	}
 	
-	drawCords.xPoints.push(x, x+5, x, x-5);
-	drawCords.yPoints.push(y-6,y+5,y+2,y+5);
+	var lastX = x,
+	lastY = y-getRandomInt(6,10),
+	xVal = 0,
+	yVal = 0;
+	drawCords.xPoints.push(lastX);
+	drawCords.yPoints.push(lastY);
+
+	for (var i = 1; i < pointCount; i++){
+		lastX = drawCords.xPoints[drawCords.xPoints.length-1];
+		lastY = drawCords.yPoints[drawCords.yPoints.length-1];
+		if (i <= pointCount/2 - 1){
+			xVal = lastX + getRandomInt(4,8);
+			yVal = lastY + getRandomInt(6,10);
+		}
+		else if(i == pointCount/2){
+			xVal = x;
+			yVal = lastY - getRandomInt(3,6);
+		}
+		else{
+			var n = pointCount - i;
+			xVal = 2*x - drawCords.xPoints[n];
+			yVal = drawCords.yPoints[n];
+		}
+		
+		drawCords.xPoints.push(xVal);
+		drawCords.yPoints.push(yVal);
+	}
+	
+	//drawCords.xPoints.push(x, x+5, x, x-5);
+	//drawCords.yPoints.push(y-6,y+5,y+2,y+5);
 	
 	return drawCords;
 	
