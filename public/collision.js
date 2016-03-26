@@ -1,4 +1,4 @@
-
+var filteredSweeps = [];
 function checkCollision(array){
 	var pairList = broadBase(array);
 	print("Objects in pairList: " + pairList);
@@ -14,18 +14,24 @@ function checkCollision(array){
 
 function broadBase(array) {
 	_findAllSides(array);
-	var filteredSweeps = sweep(array,camera);
+	sweep(array,camera);
 	print("Objects on screen: " + filteredSweeps.length);
-	print("Objects in world: " + String(Number(array.length)-1));
+	print("Objects in world: " + array.length);
 	return prune(filteredSweeps);
 }
 
 function sweep(array,box) {
-	var filteredSweeps = [];
 	for (var i = 0; i < array.length; i++) {
 		array[i].isHit = false;
+		var filteredIndex = filteredSweeps.indexOf(array[i]);
 		if(checkBounds(array[i],box)) {
-		    filteredSweeps.push(array[i]);
+			if(filteredIndex == -1){
+				filteredSweeps.push(array[i]);
+			}
+		} else {
+			if(filteredIndex != -1){
+				filteredSweeps.splice(filteredIndex,1);
+			}
 		}
 	}
 	filteredSweeps = sortSweeps(filteredSweeps);
