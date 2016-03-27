@@ -123,9 +123,12 @@ class Asteroid extends GameObject {
 		this.drawCords = updatePoly(this);
 		this.x = this.drawCords.x;
 		this.y = this.drawCords.y;
+
 	}
 	update() {
 		this.draw();
+		this.displacement = updatePhysics(this);
+		this.translate(this.x,this.y);
 	}
 	translate(x,y) {
 		this.displacementX = this.x;

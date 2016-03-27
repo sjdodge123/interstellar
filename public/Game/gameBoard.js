@@ -44,8 +44,8 @@ function buildScene() {
 }
 
 function buildTestScene(){
-	collisionTestScene();
-	//beltTestScene();
+	//collisionTestScene();
+	beltTestScene();
 }
 
 function collisionTestScene(){
