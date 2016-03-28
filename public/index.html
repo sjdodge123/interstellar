@@ -34,7 +34,7 @@ gridOn = false,
 assTard,
 dt,
 timer,
-updateList = [],
+gameUpdateList,
 game;
 var testBool = false;
 
@@ -54,6 +54,7 @@ window.onload = function() {
 
 function initOffline() {
 	console.log('Playing Offline');
+	gameUpdateList = new GameUpdateList();
 	boardInit();
 	setupListeners();
 }
@@ -74,10 +75,10 @@ function startGame() {
 function update() {
 	clearBackground();
 	timer.calcTime();
-	smartArrayMerge(updateList,checkCollision(gameObjectList));
+	gameUpdateList.addUpdateArray(checkCollision(gameObjectList));
 	updateGameBoard();
 	debugUpdate(); //Optional call for debuging things (located in debug.js)
-	smartArrayClean(updateList);
+	gameUpdateList.clean();
 }
 
 </script>

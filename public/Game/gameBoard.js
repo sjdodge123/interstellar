@@ -48,7 +48,7 @@ function buildTestScene(){
 	//collisionTestScene();
 	beltTestScene();
 	importantObjects = checkGravityObjects();
-	smartArrayAddPermItems(importantObjects);
+	gameUpdateList.addPermArray(importantObjects);
 }
 
 function collisionTestScene(){
@@ -80,6 +80,7 @@ function clickSpawn(){
 }
 
 function updateGameBoard() {
+	var updateList = gameUpdateList.currentUpdateList;
 	for(var i = 0; i < updateList.length;i+=1){
 		if(updateList[i] != null) {
 			updateList[i].update();

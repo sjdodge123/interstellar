@@ -1,5 +1,4 @@
-var ids = [],
-permObjectList = [];
+var ids = [];
 
 function sortArray(array){
 	var swapped, temp,
@@ -78,30 +77,6 @@ function calcVectorMag(x1,y1,x2,y2) {
 	var yDis = y2-y1;
 	var dist = Math.sqrt(Math.pow(xDis,2)+Math.pow(yDis,2));
 	return {xDis:xDis,yDis:yDis,dist:dist};
-}
-
-
-function smartArrayAddPermItems(newItems){
-	permObjectList = permObjectList.concat(newItems);
-}
-
-function smartArrayMerge(mainArray,addArray){
-	for(var i=0;i<addArray.length;i++) {
-		smartArrayAdd(addArray[i],mainArray);
-	}
-	for(var j=0;j<permObjectList.length;j++){
-		smartArrayAdd(permObjectList[j],mainArray);
-	}
-}
-
-function smartArrayClean(currentArray){
-	for(var i=0;i<currentArray.length;i++){
-		var index = permObjectList.indexOf(currentArray[i]);
-		if(index != -1){
-			currentArray.splice(index,1);
-		}
-	}
-	print("Current Objects being updated: " + currentArray.length);
 }
 
 function smartArrayFilter(condition,object,array){

@@ -16,6 +16,10 @@ function calculateGravity(object){
 			object.gravAccelY += gravCont * values.yDis/values.dist;
 		}
 		if(values.dist <= gravObj.radius*1.1){
+			//Collision occur!
+
+
+			//React
 			object.velX = -object.velX;
 			object.velY = -object.velY;
 		}

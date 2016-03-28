@@ -67,3 +67,42 @@ class WorldObject {
 
 	
 }
+
+class GameUpdateList {
+	constructor(){
+		this.permObjectList = [];
+		this.currentUpdateList = [];
+		this.built = false;
+		this.i = 0;
+		this.curIndex = 0;
+	}
+	addPermArray(newItems){
+		this.permObjectList = this.permObjectList.concat(newItems);
+	}
+	addUpdateArray(newItems){
+		//This must be called at least once to *build* the perm array list
+		for(this.i=0;this.i<newItems.length;this.i++) {
+			smartArrayAdd(newItems[this.i],this.currentUpdateList);
+		}
+		if(!this.built){
+			this.build();
+		}
+	}
+	build(){
+		//This adds all perm objects to the currentupdate list if they don't already exist
+		for(this.i=0;this.i<this.permObjectList.length;this.i++){
+			smartArrayAdd(this.permObjectList[this.i],this.currentUpdateList);
+		}
+		this.built = true;
+	}
+	clean(){
+		for(this.i=0;this.i<this.currentUpdateList.length;this.i++){
+			this.curIndex = this.permObjectList.indexOf(this.currentUpdateList[this.i]);
+			if(this.curIndex != -1){
+				this.currentUpdateList.splice(this.curIndex,1);
+			}
+		}
+		this.built = false;
+		print("Current Objects being updated: " + this.currentUpdateList.length);
+	}
+}
