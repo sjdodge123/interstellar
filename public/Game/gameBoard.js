@@ -12,6 +12,7 @@ var asteroids = [],
 	myPlanet,
 	beltObjects = [],
 	gravityObjects = [],
+	importantObjects = [],
 	shipSpawnLoc,
 	asteroidSpawn;
 
@@ -46,6 +47,8 @@ function buildScene() {
 function buildTestScene(){
 	//collisionTestScene();
 	beltTestScene();
+	importantObjects = checkGravityObjects();
+	smartArrayAddPermItems(importantObjects);
 }
 
 function collisionTestScene(){
@@ -68,7 +71,7 @@ function beltTestScene(){
 		spawnAsteroidsRandom(null);
 	}
 	myShip.attachToBelt(spawnAsteroidFixed(myShip.x+100,myShip.y-100));
-
+	
 }
 
 function clickSpawn(){
@@ -77,16 +80,33 @@ function clickSpawn(){
 }
 
 function updateGameBoard() {
-	for(var i = 0; i < gameObjectList.length;i+=1){
-		if(gameObjectList[i] != null) {
-			gameObjectList[i].update();
+	for(var i = 0; i < updateList.length;i+=1){
+		if(updateList[i] != null) {
+			updateList[i].update();
 		}
 	}
-	for(var j=0;j<gravityObjects.length;j++){
+	for(var j = 0; j < gravityObjects.length;j+=1){
 		gravityObjects[j].update();
 	}
+	
 	if(!cameraBound){
 		camera.update(camera.x,camera.y);
 	}
+	if(myShip){
+		myShip.update();
+	}
 	world.update();
+}
+
+function checkGravityObjects(){
+	var listAdditions = [];
+	var condition = function (x1,y1,x2,y2,radius){
+		return calcVectorMag(x1,y1,x2,y2).dist < radius;
+	};
+	for(var i=0;i<gravityObjects.length;i++){
+		for(var j=0;j<gameObjectList.length;j++){
+			smartArrayFilter(condition(gameObjectList[j].x,gameObjectList[j].y,gravityObjects[i].x,gravityObjects[i].y,gravityObjects[i].gravityRadius),gameObjectList[j],listAdditions);
+		}
+	}
+	return listAdditions;
 }

@@ -10,6 +10,7 @@ function checkCollision(array){
 	}
 	*/
 	midBase(pairList);
+	return filteredSweeps;
 }
 
 function broadBase(array) {
@@ -21,18 +22,12 @@ function broadBase(array) {
 }
 
 function sweep(array,box) {
+	var condition = function(object){
+			return checkBounds(object,box);
+	};
 	for (var i = 0; i < array.length; i++) {
 		array[i].isHit = false;
-		var filteredIndex = filteredSweeps.indexOf(array[i]);
-		if(checkBounds(array[i],box)) {
-			if(filteredIndex == -1){
-				filteredSweeps.push(array[i]);
-			}
-		} else {
-			if(filteredIndex != -1){
-				filteredSweeps.splice(filteredIndex,1);
-			}
-		}
+		smartArrayFilter(condition(array[i]),array[i],filteredSweeps);
 	}
 	filteredSweeps = sortSweeps(filteredSweeps);
 	return filteredSweeps;  
