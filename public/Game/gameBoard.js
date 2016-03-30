@@ -9,6 +9,7 @@ var asteroids = [],
 	oldMouseX=0,
 	oldMouseY=0,
 	spawnOnClick = false,
+	pickupClick = true,
 	myPlanet,
 	beltObjects = [],
 	gravityObjects = [],
@@ -110,4 +111,14 @@ function checkGravityObjects(){
 		}
 	}
 	return listAdditions;
+}
+
+function findObjectsUnderPoint(x,y){
+	var updateList = gameUpdateList.currentUpdateList;
+	for(var i=0;i<updateList.length;i++){
+		if(checkBoundsPoint(x,y,updateList[i])){
+			return updateList[i];
+		}
+	}
+	return false;
 }

@@ -3,6 +3,8 @@ var moveBackward = false;
 var turnLeft = false;
 var turnRight = false;
 
+var objectInHand = false;
+
 function setupListeners(){
 	canvas.addEventListener("mousemove", calcMousePos, false);
 	canvas.addEventListener("click", handleClick, false);
@@ -20,8 +22,20 @@ function calcMousePos(evt){
 
 function handleClick(evt){
     if(spawnOnClick){
-        assTard = spawnAsteroidMouse(mouseX,mouseY);
+        assTard = spawnAsteroidMouse();
     }
+	if(pickupClick){
+		var newAsstard = findObjectsUnderPoint(camera.toWorldX(mouseX),camera.toWorldY(mouseY));
+		if(!objectInHand){
+			objectInHand = true;
+			assTard = newAsstard;
+		} else {
+			objectInHand = false;
+			assTard = null;
+		}
+		console.log(newAsstard);
+		//assTard = 
+	}
 	evt.preventDefault();
 }
 

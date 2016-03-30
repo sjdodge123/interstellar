@@ -38,6 +38,16 @@ function checkBounds(object, box, padding) {
   return false;
 }
 
+function checkBoundsPoint(x,y,box, padding) {
+  if (!padding) {
+    var padding = 0;
+  }
+  if ((x >= box.left - padding && x <= box.right + padding) && (y >= box.top - padding && y <= box.bottom + padding)) {
+    return true
+  }
+  return false;
+}
+
 function findMin_R(array, index){
 	if(index == array.length - 1){
 		return array[index];
