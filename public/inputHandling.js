@@ -40,11 +40,10 @@ function attachObjectToMouse(evt){
 
 function attachObjectToBelt(){
 	var object = findObjectsUnderPoint(camera.toWorldX(mouseX),camera.toWorldY(mouseY));
-	if(object && !myShip.hasObjectInBelt(object)) {
+	if(object) {
 		myShip.attachToBelt(object);
 	}
 }
-
 
 function handleClick(evt){
 	if(spawnOnClick || pickupClick){

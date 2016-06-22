@@ -68,12 +68,15 @@ class ShipObject extends GameObject {
 		this.displacementY = y - this.displacementY;
 	}
 	attachToBelt(object){
-		this.beltList.push(object);
+		if(object instanceof Asteroid && !this.hasObjectInBelt(object)){
+			this.beltList.push(object);
+		}
 	}
 	hasObjectInBelt(object){
 		if(this.beltList.indexOf(object) == -1){
 			return false;
 		}
+		if(object)
 		return true;
 	}
 	update() {
