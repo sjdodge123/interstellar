@@ -70,6 +70,12 @@ class ShipObject extends GameObject {
 	attachToBelt(object){
 		this.beltList.push(object);
 	}
+	hasObjectInBelt(object){
+		if(this.beltList.indexOf(object) == -1){
+			return false;
+		}
+		return true;
+	}
 	update() {
 		if(this.isHit){
 			this.color = 'red';

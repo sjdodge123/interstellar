@@ -20,8 +20,8 @@ function calcMousePos(evt){
 	mouseY = evt.pageY - rect.top - root.scrollTop;
 }
 
-function handleClick(evt){
-    if(spawnOnClick){
+function attachObjectToMouse(evt){
+	if(spawnOnClick){
         assTard = spawnAsteroidMouse();
     }
 	if(pickupClick){
@@ -34,9 +34,29 @@ function handleClick(evt){
 			assTard = null;
 		}
 		console.log(newAsstard);
-		//assTard = 
 	}
 	evt.preventDefault();
+}
+
+function attachObjectToBelt(){
+	var object = findObjectsUnderPoint(camera.toWorldX(mouseX),camera.toWorldY(mouseY));
+	if(object && !myShip.hasObjectInBelt(object)) {
+		myShip.attachToBelt(object);
+	}
+}
+
+
+function handleClick(evt){
+	if(spawnOnClick || pickupClick){
+		attachObjectToMouse(evt);
+		evt.preventDefault();
+		return;
+	}
+	if(beltEnabled){
+		attachObjectToBelt();
+		evt.preventDefault();
+		return;
+	}
 }
 
 function keyDown(evt){
