@@ -54,6 +54,7 @@ function buildTestScene(){
 }
 
 function collisionTestScene(){
+	spawnOnClick = true;
 	createCamera(false);
 	camera.padding = 150;
 	//createGravityObjects();

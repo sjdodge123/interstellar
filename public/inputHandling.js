@@ -64,6 +64,7 @@ function keyDown(evt){
     case 87: {moveForward = true; break;} //Up key
     case 68: {turnRight = true; break;}//Right key
     case 83: {moveBackward = true; break;} //Down key
+    case 32: {myShip.sprayBelt();} //Down key
     case 71: {(gridOn == false ? gridOn = true : gridOn = false);  break;}
     case 121: {
     	toggleOverlay();

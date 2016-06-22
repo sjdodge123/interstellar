@@ -79,6 +79,9 @@ class ShipObject extends GameObject {
 		if(object)
 		return true;
 	}
+	sprayBelt(){
+		this.beltList = [];
+	}
 	update() {
 		if(this.isHit){
 			this.color = 'red';
