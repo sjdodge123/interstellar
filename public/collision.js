@@ -70,11 +70,11 @@ function midBase(pairList) {
 			continue;
 		}
 		*/
-		if(checkAABCollision(pairList[i].hit1,pairList[i].hit2)) {
+		//if(checkAABCollision(pairList[i].hit1,pairList[i].hit2)) {
 			if(narrowBase(pairList[i].hit1,pairList[i].hit2)) {
 				//answer = true;
 			}
-		}
+		//}
 		
 	}
 }
@@ -94,8 +94,14 @@ function checkAABCollision(object,testObject) {
 function narrowBase(object , testObject) {
 	for (i = 0, j = object.drawCords.xPoints.length-1; i < object.drawCords.xPoints.length; j = i++){
 		for (k = 0, l = testObject.drawCords.xPoints.length-1; k < testObject.drawCords.xPoints.length; l = k++){
-			var answer = checkCollisionLine(object.drawCords.xPoints[i],object.drawCords.yPoints[i],object.drawCords.xPoints[j],object.drawCords.yPoints[j],
-			testObject.drawCords.xPoints[k],testObject.drawCords.yPoints[k],testObject.drawCords.xPoints[l],testObject.drawCords.yPoints[l])
+			var lineOne = [];
+			var lineTwo = [];
+			lineOne.push(object.drawCords.xPoints[i],object.drawCords.yPoints[i],object.drawCords.xPoints[j],object.drawCords.yPoints[j]);
+			lineTwo.push(testObject.drawCords.xPoints[k],testObject.drawCords.yPoints[k],testObject.drawCords.xPoints[l],testObject.drawCords.yPoints[l]);
+			var answer = checkCollisionTest(lineOne,lineTwo);
+			
+			//var answer = checkCollisionLine(object.drawCords.xPoints[i],object.drawCords.yPoints[i],object.drawCords.xPoints[j],object.drawCords.yPoints[j],
+			//testObject.drawCords.xPoints[k],testObject.drawCords.yPoints[k],testObject.drawCords.xPoints[l],testObject.drawCords.yPoints[l])
 			object.isHit = object.isHit || answer;
 			testObject.isHit = testObject.isHit || answer;
 			if(answer){break;}
@@ -124,6 +130,46 @@ function checkCollisionLine(lineAx1,lineAy1,lineAx2,lineAy2,lineBx1,lineBy1,line
 	return true;
 	}
 	return false;
+}
+function checkCollisionTest(lineOne,lineTwo){
+	var Aone = lineOne[3]-lineOne[1],
+	Bone = lineOne[0]-lineOne[2],
+
+	Atwo = lineTwo[3]-lineTwo[1],
+	Btwo = lineTwo[0]-lineTwo[2],
+	//first min and max
+	minXone = Math.min(lineOne[0],lineOne[2]),
+	maxXone = Math.max(lineOne[0],lineOne[2]),
+	minYone = Math.min(lineOne[1],lineOne[3]),
+	maxYone = Math.max(lineOne[1],lineOne[3]),
+
+	//second min and max
+	minXtwo = Math.min(lineTwo[0],lineTwo[2]),
+	maxXtwo = Math.max(lineTwo[0],lineTwo[2]),
+	minYtwo = Math.min(lineTwo[1],lineTwo[3]),
+	maxYtwo = Math.max(lineTwo[1],lineTwo[3]),
+
+	//determinant
+	det = Aone*Btwo - Atwo*Bone;
+	if(det == 0){
+		//parallel
+	}
+	else{
+		//lines to inf intersect
+		var Cone = Aone*lineOne[0] + Bone*lineOne[1],
+		Ctwo = Atwo*lineTwo[0] + Btwo*lineTwo[1],
+    
+		interx = (Btwo*Cone - Bone*Ctwo)/det,
+		intery = (Aone*Ctwo - Atwo*Cone)/det;
+		if(interx <= maxXone && interx >= minXone && intery <= maxYone && intery>= minYone){
+			if(interx <= maxXtwo && interx >= minXtwo && intery <= maxYtwo && intery>= minYtwo){
+				return true;
+			}
+		}
+        else{
+			return false;
+		}	
+	}
 }
 function _checkIfSelf(object, testObject) {
 	return object == testObject; //|| testObject.isHit;
