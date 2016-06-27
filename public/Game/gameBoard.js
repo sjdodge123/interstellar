@@ -47,8 +47,8 @@ function buildScene() {
 }
 
 function buildTestScene(){
-	//collisionTestScene();
-	beltTestScene();
+	collisionTestScene();
+	//beltTestScene();
 	importantObjects = checkGravityObjects();
 	gameUpdateList.addPermArray(importantObjects);
 }

@@ -35,31 +35,20 @@ function sweep(array,box) {
 
 function prune(sweepList) {
   var pairList = [],
-  activeList = [],
-  toRemove = [];
-  activeList.push(sweepList[0]);
-  
-  for (var i = 1; i < sweepList.length; i++){
-	  for (var j = 0; j < activeList.length; j++){
-		  if (sweepList[i].left >= activeList[j].right){
-			  toRemove.push(j);
-		  }
-		  else{
-			  pairList.push({
-				  hit1: sweepList[i],
-				  hit2: activeList[j]
+    len = sweepList.length - 1;
+  for (var i = 0; i < len; i++) {
+    for (var j = i + 1; j < len + 1; j++) {
+      if (sweepList[i].right >= sweepList[j].left) {
+        pairList.push({
+          hit1: sweepList[i],
+          hit2: sweepList[j]
+        });
+      }
+    }
 
-			  });
-			 // sweepList[i].isHit = true;
-			 // activeList[j].isHit = true;
-		  }
-	  }
-	  for (var k = 0; k < toRemove.length; k++){
-		  activeList.splice(toRemove[k],1);
-	  }
-	  activeList.push(sweepList[i]);
   }
   return pairList;
+
 }
 
 function midBase(pairList) {
