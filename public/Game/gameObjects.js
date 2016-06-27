@@ -80,6 +80,10 @@ class ShipObject extends GameObject {
 		return true;
 	}
 	sprayBelt(){
+		for(var i=0;i<this.beltList.length;i++){
+			this.beltList[i].velX = this.velX;
+			this.beltList[i].velY = this.velY;
+		}
 		this.beltList = [];
 	}
 	update() {
